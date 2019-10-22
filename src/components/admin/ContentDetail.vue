@@ -6,7 +6,17 @@
                 <div class="p-col-12" v-if="validation.error_message">
                     <Message severity="error">{{validation.error_message}}</Message>
                 </div>
+
+                <div class="p-col-12" v-if="!this.content">
+                    <div style="height: 220px;"></div>
+                    <div style="text-align: center">
+                        <ProgressSpinner v-if="!this.content && !validation.error_message"/>
+                    </div>
+                    <div style="height: 280px;"></div>
+                </div>
+
                 <div class="p-col-12" v-if="this.content">
+
                     <div class="card card-w-title edit-data">
 
                         <div class="p-grid">
@@ -97,6 +107,8 @@
 
                             <div class="p-col-1">
 
+
+
                             </div>
                             <div class="p-col-1">
                                 <label>Açar sözlər</label>
@@ -167,6 +179,7 @@
                 disableUpdateDate:false,
                 selectedFile: null,
                 content: null,
+                loading:true,
                 multiselectedCategories: null,
                 validation: {
                     error_message: '',
@@ -194,9 +207,11 @@
 
                 axios.get(appOptions.apiUrl + 'categories/get/offset/0/limit/0').then(response => {
                     this.multiselectCategries = response.data.body.categories;
+                    this.loading = false
                     // delete a.Prop1;
                     // eslint-disable-next-line no-unused-vars
                 }).catch((error) => {
+                    this.loading = false
                     this.validation.error_message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
                 });
 
@@ -205,13 +220,15 @@
                         this.content = response.data;
                         this.content.crDate = new Date();
                         this.content.upDate = new Date();
+                        this.loading = false
                         // eslint-disable-next-line no-unused-vars
                     }).catch((error) => {
+                        this.loading = false
                         this.validation.error_message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin. Xəta: '+error;
                     });
                 }  else { // edit content
                     axios.get(appOptions.apiUrl + 'content/get/id/'+id).then(response => {
-                        console.log(response.data);
+                        this.loading = false
                         if(response.data.problem === undefined){
                             this.content = response.data.body.content;
                             // let preview = document.querySelector('#preview_image');
@@ -222,6 +239,7 @@
                             this.validation.error_message = 'Məzmun tapılmadı.';
                         }
                     }).catch((error) => {
+                        this.loading = false
                         this.validation.error_message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin. Xəta: '+error;
                     });
                 }

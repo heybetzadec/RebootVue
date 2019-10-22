@@ -48,10 +48,10 @@
                         ]
                     },
                     {
-                        label: 'Slayder', icon: 'pi pi-fw pi-images',
+                        label: 'Vitrin', icon: 'pi pi-fw pi-images',
                         items: [
                             {label: 'Əlavə et', icon: 'pi pi-fw pi-plus', to: '/dashboard/slider/add'},
-                            {label: 'Slayderlər', icon: 'pi pi-fw pi-list', to: '/dashboard/sliders'}
+                            {label: 'Vitrin məzmunlar', icon: 'pi pi-fw pi-list', to: '/dashboard/sliders'}
                         ]
                     },
                     {

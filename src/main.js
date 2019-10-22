@@ -51,6 +51,7 @@ import ToggleButton from 'primevue/togglebutton';
 import Tree from 'primevue/tree';
 import TriStateCheckbox from 'primevue/tristatecheckbox';
 import ValidationMessage from 'primevue/validationmessage';
+import ProgressSpinner from 'primevue/progressspinner';
 
 
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -127,6 +128,7 @@ Vue.component('ToggleButton', ToggleButton);
 Vue.component('Tree', Tree);
 Vue.component('TriStateCheckbox', TriStateCheckbox);
 Vue.component('ValidationMessage', ValidationMessage);
+Vue.component('ProgressSpinner', ProgressSpinner);
 
 Vue.use(ToastService);
 Vue.use(require('vue-moment'));

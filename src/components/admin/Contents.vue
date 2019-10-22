@@ -3,7 +3,7 @@
         <div class="p-col-12">
 
             <Sidebar :visible.sync="visibleRight" :baseZIndex="1000" position="right">
-                <h1 style="fontWeight:normal">Ayarla</h1>
+                <h1 style="fontWeight:normal">Vitirin olaraq ayarla</h1>
                 <div class="empty20"></div>
                 <Menu :model="items" class="full-width"/>
             </Sidebar>
@@ -16,7 +16,17 @@
                     <div class="p-col-12" v-if="validation.not_connection">
                         <Message severity="error">{{validation.not_connection}}</Message>
                     </div>
-                    <DataTable resizableColumns="true" class="p-datatable-responsive" :value="contents"
+
+
+                    <div class="p-col-12" v-if="!this.contents">
+                        <div style="height: 220px;"></div>
+                        <div style="text-align: center">
+                            <ProgressSpinner v-if="!this.contents && !this.validation.not_connection"/>
+                        </div>
+                        <div style="height: 220px;"></div>
+                    </div>
+
+                    <DataTable v-if="this.contents" resizableColumns="true" class="p-datatable-responsive" :value="contents"
                                :filters="filters" :paginator="true" :rows="10">
                         <template #header>
                             <div style="text-align: right">
@@ -32,12 +42,12 @@
                                 </div>
                             </template>
                         </Column>
-                        <Column field="title" header="Başlıq" filterMatchMode="contains">
+                        <Column field="title" header="Başlıq" filterMatchMode="contains" :sortable="true">
                             <template #filter>
                                 <InputText type="text" v-model="filters['title']" class="p-column-filter"/>
                             </template>
                         </Column>
-                        <Column field="viewCount" header="Baxış sayı" filterMatchMode="contains">
+                        <Column field="viewCount" header="Baxış sayı" filterMatchMode="contains" :sortable="true">
                             <template #filter>
                                 <InputText type="text" v-model="filters['viewCount']" class="p-column-filter"/>
                             </template>

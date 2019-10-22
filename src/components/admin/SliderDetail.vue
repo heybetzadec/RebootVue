@@ -218,11 +218,11 @@
                     data: this.slider
                 };
                 // eslint-disable-next-line no-unused-vars
-                axios(options).then((res) => {
-                    this.$router.replace('/dashboard/sliders');
-                }).catch((error) => {
-                    console.log(error);
-                });
+                // axios(options).then((res) => {
+                //     this.$router.replace('/dashboard/sliders');
+                // }).catch((error) => {
+                //     console.log(error);
+                // });
             }
         }
     }
