@@ -40,8 +40,8 @@
                         <Column>
                             <template #body="slotProps">
                                 <div class="align-center button-container">
-                                    <Button v-if="slotProps.data.typeId===1" @click="remove(slotProps.data)" class="p-button-danger" icon="pi pi-trash" title="sdas"/>
-                                    <Button @click="$router.push('slider/edit/id/'+slotProps.data.id)" icon="pi pi-pencil"/>
+                                    <Button v-if="slotProps.data.typeId===1" @click="remove(slotProps.data)" class="p-button-danger" icon="pi pi-trash" />
+                                    <Button @click="$router.push('slider/edit/slider_id/'+slotProps.data.id)" icon="pi pi-pencil"/>
                                 </div>
                             </template>
                         </Column>

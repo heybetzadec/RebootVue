@@ -49,6 +49,10 @@ export default new Router({
 					path: 'slider/type/:type/id/:id',
 					component: () => import('./components/admin/SliderDetail.vue')
 				},
+				{
+					path: 'slider/edit/slider_id/:slider_id',
+					component: () => import('./components/admin/SliderDetail.vue')
+				},
 			]
 		},
 		{

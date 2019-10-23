@@ -141,22 +141,41 @@
                 this.link = Functions.sef_link(this.slider.title);
             },
             loadModel() {
-                let id = this.$route.params.id;
-                let type = this.$route.params.type;
-                axios.get(appOptions.apiUrl + 'slider/get/model/type/'+type+'/id/'+id).then(response => {
-                    if (response.data.status === 'OK') {
-                        this.slider = response.data.body.slider;
-                        this.slider.crDate = new Date(this.slider.createDate);
-                        this.slider.upDate = new Date(this.slider.updateDate);
-                        this.imgUrl = appOptions.apiUrl + 'media/' + this.slider.imageName;
-                    } else {
-                        this.validation.error_message = 'Məlumat yüklənmədi.';
-                    }
-                    // eslint-disable-next-line no-unused-vars
-                }).catch((error) => {
-                    console.log(error);
-                    this.validation.error_message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
-                });
+                let slider_id = this.$route.params.slider_id;
+                if (slider_id === undefined) {
+                    let id = this.$route.params.id;
+                    let type = this.$route.params.type;
+                    axios.get(appOptions.apiUrl + 'slider/get/model/type/'+type+'/id/'+id).then(response => {
+                        if (response.data.status === 'OK') {
+                            this.slider = response.data.body.slider;
+                            this.slider.crDate = new Date(this.slider.createDate);
+                            this.slider.upDate = new Date(this.slider.updateDate);
+                            this.imgUrl = appOptions.apiUrl + 'media/' + this.slider.imageName;
+                        } else {
+                            this.validation.error_message = 'Məlumat yüklənmədi.';
+                        }
+                        // eslint-disable-next-line no-unused-vars
+                    }).catch((error) => {
+                        console.log(error);
+                        this.validation.error_message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
+                    });
+                } else {
+                    axios.get(appOptions.apiUrl + 'slider/get/id/'+slider_id).then(response => {
+                        if (response.data.status === 'OK') {
+                            console.log(response.data);
+                            this.slider = response.data.body.slider;
+                            this.slider.crDate = new Date(this.slider.createDate);
+                            this.slider.upDate = new Date(this.slider.updateDate);
+                            this.imgUrl = appOptions.apiUrl + 'media/' + this.slider.imageName;
+                        } else {
+                            this.validation.error_message = 'Məlumat yüklənmədi.';
+                        }
+                        // eslint-disable-next-line no-unused-vars
+                    }).catch((error) => {
+                        console.log(error);
+                        this.validation.error_message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
+                    });
+                }
             },
             previewFile(event) {
                 this.selectedFile = event.target.files[0];
