@@ -68,7 +68,6 @@
 <script>
 
     import {appOptions} from "../../model/Variables";
-    import {Functions} from "../../model/Functions";
 
     let axios = require('axios');
 
@@ -101,21 +100,21 @@
                                 label: 'Orta üst şəkil',
                                 icon: 'pi pi-arrow-up',
                                 command: () => {
-                                    window.location.href = 'slider/add/type/2/id/' + this.selectedSliderId
+                                    window.location.href = 'slider/type/2/id/' + this.selectedSliderId
                                 }
                             },
                             {
                                 label: 'Orta alt şəkil',
                                 icon: 'pi pi-arrow-down',
                                 command: () => {
-                                    window.location.href = 'slider/add/type/3/id/' + this.selectedSliderId
+                                    window.location.href = 'slider/type/3/id/' + this.selectedSliderId
                                 }
                             },
                             {
                                 label: 'Sağ şəkil',
                                 icon: 'pi pi-arrow-right',
                                 command: () => {
-                                    window.location.hash = 'slider/add/type/4/id/' + this.selectedSliderId
+                                    window.location.hash = 'slider/type/4/id/' + this.selectedSliderId
                                 }
                             }
                         ],
@@ -127,7 +126,7 @@
                                 label: 'Sol üst',
                                 icon: 'pi pi-image',
                                 command: () => {
-                                    window.location.href = 'slider/add/type/5/id/' + this.selectedSliderId
+                                    window.location.href = 'slider/type/5/id/' + this.selectedSliderId
                                 }
                             },
                         ],
@@ -200,6 +199,9 @@
     }
 </style>
 <style lang="css">
+    .card {
+        min-height: 632px;
+    }
     .image-body {
         width: 100%;
         text-align: center;

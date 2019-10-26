@@ -40,7 +40,6 @@ export default new Router({
 					path: 'sliders',
 					component: () => import('./components/admin/Slider.vue')
 				},
-				// slider/add/type/5/id/
 				{
 					path: 'slider/add',
 					component: () => import('./components/admin/SliderDetail.vue')

@@ -151,6 +151,7 @@
                             this.slider.crDate = new Date(this.slider.createDate);
                             this.slider.upDate = new Date(this.slider.updateDate);
                             this.imgUrl = appOptions.apiUrl + 'media/' + this.slider.imageName;
+                            console.log(this.slider);
                         } else {
                             this.validation.error_message = 'Məlumat yüklənmədi.';
                         }
@@ -162,7 +163,6 @@
                 } else {
                     axios.get(appOptions.apiUrl + 'slider/get/id/'+slider_id).then(response => {
                         if (response.data.status === 'OK') {
-                            console.log(response.data);
                             this.slider = response.data.body.slider;
                             this.slider.crDate = new Date(this.slider.createDate);
                             this.slider.upDate = new Date(this.slider.updateDate);
@@ -231,17 +231,17 @@
                 this.slider.updateDate = moment(this.slider.upDate).format('YYYY-MM-DD HH:mm:ss');
                 this.slider.typeId = this.$route.params.type;
                 let options = {
-                    url: appOptions.apiUrl + 'slider/set',
+                    url: appOptions.apiUrl + 'slider/save',
                     method: 'POST',
                     headers: appOptions.jsonHeader,
                     data: this.slider
                 };
                 // eslint-disable-next-line no-unused-vars
-                // axios(options).then((res) => {
-                //     this.$router.replace('/dashboard/sliders');
-                // }).catch((error) => {
-                //     console.log(error);
-                // });
+                axios(options).then((res) => {
+                    this.$router.replace('/dashboard/sliders');
+                }).catch((error) => {
+                    console.log(error);
+                });
             }
         }
     }

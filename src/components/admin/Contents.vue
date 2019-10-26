@@ -123,21 +123,21 @@
                                 label: 'Orta üst şəkil',
                                 icon: 'pi pi-arrow-up',
                                 command: () => {
-                                    window.location.href = 'slider/add/type/2/id/' + this.selectedContentId
+                                    window.location.href = 'slider/type/2/id/' + this.selectedContentId
                                 }
                             },
                             {
                                 label: 'Orta alt şəkil',
                                 icon: 'pi pi-arrow-down',
                                 command: () => {
-                                    window.location.href = 'slider/add/type/3/id/' + this.selectedContentId
+                                    window.location.href = 'slider/type/3/id/' + this.selectedContentId
                                 }
                             },
                             {
                                 label: 'Sağ şəkil',
                                 icon: 'pi pi-arrow-right',
                                 command: () => {
-                                    window.location.hash = 'slider/add/type/4/id/' + this.selectedContentId
+                                    window.location.hash = 'slider/type/4/id/' + this.selectedContentId
                                 }
                             }
                         ],
@@ -149,7 +149,7 @@
                                 label: 'Sol üst',
                                 icon: 'pi pi-image',
                                 command: () => {
-                                    window.location.href = 'slider/add/type/5/id/' + this.selectedContentId
+                                    window.location.href = 'slider/type/5/id/' + this.selectedContentId
                                 }
                             },
                         ],
@@ -222,6 +222,10 @@
     }
 </style>
 <style lang="css">
+    .card {
+        min-height: 632px;
+    }
+
     .image-body {
         width: 100%;
         text-align: center;
