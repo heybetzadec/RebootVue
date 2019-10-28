@@ -20,121 +20,118 @@
                     <div class="card card-w-title edit-data">
 
                         <div class="p-grid">
-                            <div class="p-col-1">
+                            <div class="p-col-12 p-md-1 p-lg-1">
                                 <label>Başlıq</label>
                             </div>
-                            <div class="p-col-4">
-                                <InputText class="full-width" @change="titleChange()" v-model="content.title"/>
+                            <div class="p-col-12 p-md-4 p-lg-4">
+                                <InputText class="full-width"  v-on:input="titleChange()"  v-model="content.title"/>
                             </div>
 
-                            <div class="p-col-1">
-
+                            <div class="p-col-12 p-md-1 p-lg-1">
+                                <ValidationMessage v-if="this.validation.title"></ValidationMessage>
                             </div>
-                            <div class="p-col-2">
+                            <div class="p-col-12 p-md-2 p-lg-2">
                                 <label>Əlavə edilmə zamanı</label>
                             </div>
-                            <div class="p-col-3">
-                                <Calendar class="full-width" v-model="content.crDate" :showTime="true" :showSeconds="true"
-                                          dateFormat="yy-mm-dd"/>
+                            <div class="p-col-12 p-md-3 p-lg-3">
+                                <Calendar class="full-width" v-model="createDate" :showTime="true" :showSeconds="true" dateFormat="yy-mm-dd"/>
                             </div>
                         </div>
 
                         <div class="p-grid">
-                            <div class="p-col-1">
+                            <div class="p-col-12 p-md-1 p-lg-1">
                                 <label>Link</label>
                             </div>
-                            <div class="p-col-4">
-                                <InputText class="full-width" @change="linkChange()" v-model="link" />
+                            <div class="p-col-12 p-md-4 p-lg-4">
+                                <InputText class="full-width"  v-on:input="linkChange()" v-model="link" />
                             </div>
-                            <div class="p-col-1">
-
+                            <div class="p-col-12 p-md-1 p-lg-1">
+                                <ValidationMessage v-if="this.validation.title"></ValidationMessage>
                             </div>
-                            <div class="p-col-2">
+                            <div class="p-col-12 p-md-2 p-lg-2">
                                 <label>Redaktə edilmə zamanı</label>
                             </div>
-                            <div class="p-col-3">
-                                <Calendar class="full-width" :disabled="disableUpdateDate" v-model="content.upDate" :showTime="true" :showSeconds="true"
+                            <div class="p-col-12 p-md-3 p-lg-3">
+                                <Calendar class="full-width" :disabled="disableUpdateDate" v-model="updateDate" :showTime="true" :showSeconds="true"
                                           dateFormat="yy-mm-dd"/>
                             </div>
                         </div>
 
-
                         <div class="p-grid">
-                            <div class="p-col-1">
+                            <div class="p-col-12 p-md-1 p-lg-1">
                                 <label>Kateqoria</label>
                             </div>
-                            <div class="p-col-4">
+                            <div class="p-col-12 p-md-4 p-lg-4">
                                 <MultiSelect class="full-width" v-model="multiselectedCategories" :options="multiselectCategries"
                                              optionLabel="name" placeholder="Kateqoria"/>
                             </div>
-                            <div class="p-col-1">
+                            <div class="p-col-12 p-md-1 p-lg-1">
 
                             </div>
-                            <div class="p-col-2">
+                            <div class="p-col-12 p-md-2 p-lg-2">
                                 <label>Yayımla</label>
                             </div>
-                            <div class="p-col-3">
+                            <div class="p-col-12 p-md-3 p-lg-3">
                                 <InputSwitch v-model="content.visible"/>
                             </div>
                         </div>
 
                         <div class="p-grid">
-                            <div class="p-col-1">
+                            <div class="p-col-12 p-md-1 p-lg-1">
                                 <label>Etiketlər</label>
                             </div>
-                            <div class="p-col-4">
-                                <Textarea class="full-width" pla rows="5" cols="30"/>
+                            <div class="p-col-12 p-md-4 p-lg-4">
+                                <Chips  class="full-width" v-model="tags" />
                             </div>
-                            <div class="p-col-1">
-
+                            <div class="p-col-12 p-md-1 p-lg-1">
+                                <Button icon="pi pi-arrow-left" class="p-button-secondary empty_left5" @click="keywordsToTag()" />
+                                <Button icon="pi pi-arrow-right" class="p-button-secondary empty_left5" @click="tagsToKeyword()"/>
                             </div>
-                            <div class="p-col-1">
-                                <label>Açıqlama</label>
+                            <div class="p-col-12 p-md-1 p-lg-1">
+                                <label>Açar sözlər </label>
                             </div>
-                            <div class="p-col-4">
-                                <Textarea class="full-width" pla v-model="content.description" rows="5" cols="30"/>
+                            <div class="p-col-12 p-md-4 p-lg-4">
+                                <InputText class="full-width"  v-model="content.keyword"/>
                             </div>
                         </div>
 
 
                         <div class="p-grid">
-                            <div class="p-col-1">
+                            <div class="p-col-12 p-md-1 p-lg-1">
                                 <label>Embed</label>
                             </div>
-                            <div class="p-col-4">
+                            <div class="p-col-12 p-md-4 p-lg-4">
                                 <Textarea class="full-width" pla v-model="content.embed" rows="5" cols="30"/>
                             </div>
 
-                            <div class="p-col-1">
-
-
+                            <div class="p-col-12 p-md-1 p-lg-1">
 
                             </div>
-                            <div class="p-col-1">
-                                <label>Açar sözlər</label>
+                            <div class="p-col-12 p-md-1 p-lg-1">
+                                <label>Açıqlama</label>
                             </div>
-                            <div class="p-col-4">
-                                <Textarea  class="full-width" pla v-model="content.keyword" rows="5" cols="30"/>
+                            <div class="p-col-12 p-md-4 p-lg-4">
+                                <Textarea  class="full-width" pla v-model="content.description" rows="5" cols="30"/>
                             </div>
                         </div>
 
                         <div class="p-grid">
-                            <div class="p-col-1">
+                            <div class="p-col-12 p-md-1 p-lg-1">
 
                             </div>
-                            <div class="p-col-2" id="upload_container">
+                            <div class="p-col-12 p-md-2 p-lg-2" id="upload_container">
                                 <div class="upload-btn-wrapper">
                                     <Button label="Şəkil seç" icon="pi pi-image"/>
                                     <input type="file" @change="previewFile($event)"
                                            accept="image/x-png,image/gif,image/jpeg">
                                 </div>
                             </div>
-                            <div class="p-col-3 file-message">
+                            <div class="p-col-12 p-md-3 p-lg-3 file-message">
                                 <ValidationMessage v-if="validation.image">{{validation.image}}</ValidationMessage>
                             </div>
-                            <div class="p-col-1">
+                            <div class="p-col-12 p-md-1 p-lg-1">
                             </div>
-                            <div class="p-col-4">
+                            <div class="p-col-12 p-md-4 p-lg-4">
                                 <img id="preview_image" v-bind:src="imgUrl" style="width: 100%">
                             </div>
                         </div>
@@ -179,11 +176,16 @@
                 disableUpdateDate:false,
                 selectedFile: null,
                 content: null,
+                createDate: null,
+                updateDate: null,
+                tags:null,
                 loading:true,
                 multiselectedCategories: null,
                 validation: {
                     error_message: '',
                     image: '',
+                    title: false,
+                    link: false,
                 },
                 multiselectCategries: null
             };
@@ -192,8 +194,19 @@
             this.loadModel();
         },
         methods: {
-            forTest() {
-                // console.log('The id is: ' + this.$route.params.id);
+            tagsToKeyword() {
+                var keywords = '';
+                for (let i in this.tags) {
+                    if (keywords === ''){
+                        keywords = this.tags[i];
+                    } else {
+                        keywords = keywords+','+this.tags[i];
+                    }
+                }
+                this.content.keyword = keywords;
+            },
+            keywordsToTag(){
+                this.tags = this.content.keyword.split(',');
             },
             linkChange(){
                 this.link = Functions.sef_link(this.link);
@@ -218,17 +231,17 @@
                 if (id === undefined){ // add content
                     axios.get(appOptions.apiUrl + 'content/get/model').then(response => {
                         this.content = response.data;
-                        this.content.crDate = new Date();
-                        this.content.upDate = new Date();
+                        this.createDate = new Date();
+                        this.updateDate = new Date();
                         this.loading = false
                         // eslint-disable-next-line no-unused-vars
                     }).catch((error) => {
-                        this.loading = false
+                        this.loading = false;
                         this.validation.error_message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin. Xəta: '+error;
                     });
                 }  else { // edit content
                     axios.get(appOptions.apiUrl + 'content/get/id/'+id).then(response => {
-                        this.loading = false
+                        this.loading = false;
                         if(response.data.problem === undefined){
                             this.content = response.data.body.content;
                             // let preview = document.querySelector('#preview_image');
@@ -263,6 +276,14 @@
                 }
             },
             handleSave: function () {
+                if (this.content.title === '') {
+                    this.validation.title = true;
+                    return false;
+                }
+                if (this.content.title === '') {
+                    this.validation.link = true;
+                    return false;
+                }
                 if (this.selectedFile !== null) {
                     let d = new Date();
                     let n = d.getTime();
@@ -272,9 +293,6 @@
 
                     fd.append('file', this.selectedFile, this.content.imageName);
                     fd.append('oldImage', this.oldImage);
-                    // console.log(this.selectedFile);
-                    // console.log(this.content.imageName);
-                    // console.log(this.oldImage);
                     let options = {
                         url: appOptions.apiUrl + 'content/upload/img',
                         method: 'POST',
@@ -294,12 +312,10 @@
                 }
             },
             saveContent() {
-                console.log(this.content);
                 this.content.categories = this.multiselectedCategories;
                 this.content.createDate = moment(this.content.crDate).format('YYYY-MM-DD HH:mm:ss');
                 this.content.updateDate = moment(this.content.upDate).format('YYYY-MM-DD HH:mm:ss');
                 this.content.link = this.link;
-                console.log(this.content);
                 let options = {
                     url: appOptions.apiUrl + 'content/add',
                     method: 'POST',
@@ -327,6 +343,15 @@
     /*}*/
     .p-inputwrapper-filled {
         width: 100%;
+    }
+    /*.full-width .p-component {*/
+    /*    width: 100%!important;*/
+    /*}*/
+    .full-width .p-inputtext {
+        width: 100%!important;
+    }
+    body .p-chips > ul.p-inputtext .p-chips-token{
+        margin-bottom: 1px;
     }
     .p-calendar .p-component {
         width: unset;

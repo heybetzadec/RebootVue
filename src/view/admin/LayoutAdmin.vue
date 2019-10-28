@@ -47,6 +47,13 @@
                             {label: 'Məzmunlar', icon: 'pi pi-fw pi-list', to: '/dashboard/contents'}
                         ]
                     },
+                    {
+                        label: 'Katiqoriya', icon: 'pi pi-fw pi-folder-open',
+                        items: [
+                            {label: 'Əlavə et', icon: 'pi pi-fw pi-plus', to: '/dashboard/category/add'},
+                            {label: 'Məzmunlar', icon: 'pi pi-fw pi-list', to: '/dashboard/categories'}
+                        ]
+                    },
                     {label: 'Vitrin', icon: 'pi pi-fw pi-images', to: '/dashboard/sliders'},
                     {
                         label: 'Menu Modes', icon: 'pi pi-fw pi-cog',

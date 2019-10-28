@@ -11,7 +11,7 @@
                     <div class="p-col-12" v-if="validation.not_connection">
                         <Message severity="error">{{validation.not_connection}}</Message>
                     </div>
-                    <DataTable resizableColumns="true" class="p-datatable-responsive" :value="sliders"
+                    <DataTable class="p-datatable-responsive" :value="sliders"
                                :filters="filters" :paginator="true" :rows="10">
                         <template #header>
                             <div style="text-align: right">

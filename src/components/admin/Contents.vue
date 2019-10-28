@@ -16,8 +16,6 @@
                     <div class="p-col-12" v-if="validation.not_connection">
                         <Message severity="error">{{validation.not_connection}}</Message>
                     </div>
-
-
                     <div class="p-col-12" v-if="!this.contents">
                         <div style="height: 220px;"></div>
                         <div style="text-align: center">
@@ -26,7 +24,7 @@
                         <div style="height: 220px;"></div>
                     </div>
 
-                    <DataTable v-if="this.contents" resizableColumns="true" class="p-datatable-responsive" :value="contents"
+                    <DataTable v-if="this.contents"  class="p-datatable-responsive" :value="contents"
                                :filters="filters" :paginator="true" :rows="10">
                         <template #header>
                             <div style="text-align: right">
@@ -90,7 +88,6 @@
 <script>
 
     import {appOptions} from "../../model/Variables";
-    import {Functions} from "../../model/Functions";
 
     let axios = require('axios');
 
@@ -161,19 +158,24 @@
         mounted() {
             this.mediaUrl = appOptions.apiUrl;
             axios.get(appOptions.apiUrl + 'contents/get/offset/0/limit/0').then(response => {
-                console.log(response.data.problem);
-                if (response.data.problem === undefined)
+                if (response.data.problem === undefined) {
                     this.contents = response.data.body.contents;
-                this.validation.not_connection = '';
+                    this.validation.not_connection = '';
+                } else {
+                    if (response.data.problem.code === 404) {
+                        this.validation.not_connection = 'Bazada göstəriləcək məzmun yoxdur.';
+                    } else {
+                        this.validation.not_connection = 'Servere bağlanarkən problem yarandı.';
+                    }
+                }
+
                 // eslint-disable-next-line no-unused-vars
             }).catch((error) => {
-                console.log(error);
                 this.validation.not_connection = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
             });
         },
         methods: {
             toggle(event) {
-                console.log(event);
                 this.$refs.menu.toggle(event);
             },
             openRight(id) {
@@ -225,39 +227,30 @@
     .card {
         min-height: 632px;
     }
-
     .image-body {
         width: 100%;
         text-align: center;
     }
-
     .img-list {
         height: 80px;
         text-align: center;
     }
-
     th input {
         display: none;
     }
-
     .align-center button {
         width: fit-content;
     }
-
     .button-container button {
         margin: 2px 5px 2px 0;
     }
-
     a.p-menuitem-link {
         text-align: left;
     }
-
     .add-button {
         float: right;
     }
-
     .add-button.p-button {
         border-radius: 16px;
     }
-
 </style>

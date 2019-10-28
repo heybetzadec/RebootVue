@@ -37,6 +37,18 @@ export default new Router({
 					component: () => import('./components/admin/ContentDetail.vue')
 				},
 				{
+					path: 'category',
+					component: () => import('./components/admin/Category.vue')
+				},
+				{
+					path: 'category/add',
+					component: () => import('./components/admin/CategoryDetail.vue')
+				},
+				{
+					path: 'category/edit/id/:id',
+					component: () => import('./components/admin/CategoryDetail.vue')
+				},
+				{
 					path: 'sliders',
 					component: () => import('./components/admin/Slider.vue')
 				},
