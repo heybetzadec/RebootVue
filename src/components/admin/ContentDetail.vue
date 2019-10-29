@@ -194,7 +194,7 @@
             this.loadModel();
         },
         methods: {
-            tagsToKeyword() {
+            tagsToKeyword()   {
                 var keywords = '';
                 for (let i in this.tags) {
                     if (keywords === ''){
