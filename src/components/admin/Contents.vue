@@ -13,13 +13,13 @@
                     <Button class="add-button" icon="pi pi-plus" @click="$router.replace('/dashboard/content/add')"/>
                 </h1>
                 <div>
-                    <div class="p-col-12" v-if="validation.not_connection">
-                        <Message severity="error">{{validation.not_connection}}</Message>
+                    <div class="p-col-12" v-if="validation.message">
+                        <Message :severity="validation.messageType">{{validation.message}}</Message>
                     </div>
                     <div class="p-col-12" v-if="!this.contents">
                         <div style="height: 220px;"></div>
                         <div style="text-align: center">
-                            <ProgressSpinner v-if="!this.contents && !this.validation.not_connection"/>
+                            <ProgressSpinner v-if="!this.contents && !this.validation.message"/>
                         </div>
                         <div style="height: 220px;"></div>
                     </div>
@@ -55,13 +55,8 @@
                                 <div class="align-center button-container">
                                     <Button @click="$router.push('')" icon="pi pi-eye" class="p-button-success"/>
                                     <Button @click="remove(slotProps.data)" class="p-button-danger" icon="pi pi-trash"/>
-                                    <Button @click="$router.push('content/edit/id/'+slotProps.data.id)"
-                                            icon="pi pi-pencil"/>
-                                    <Button icon="pi pi-arrow-left" @click="openRight(slotProps.data.id)"
-                                            style="margin-right:.25em"/>
-
-                                    <!--                                    <Button @click="remove(slotProps.data)" class="p-button-info" icon="pi pi-cog"/>-->
-                                    <!--                                    <SplitButton class="split-button p-button-secondary"  icon="pi pi-cog" :model="items"></SplitButton>-->
+                                    <Button @click="$router.push('content/edit/id/'+slotProps.data.id)" class="p-button-warning" icon="pi pi-pencil"/>
+                                    <Button icon="pi pi-arrow-left" @click="openRight(slotProps.data.id)" style="margin-right:.25em"/>
                                 </div>
                             </template>
                         </Column>
@@ -100,7 +95,8 @@
                 removeId: 0,
                 mediaUrl: '',
                 validation: {
-                    not_connection: '',
+                    message: '',
+                    messageType: 'error',
                     remove: ''
                 },
                 filters: {},
@@ -160,18 +156,19 @@
             axios.get(appOptions.apiUrl + 'contents/get/offset/0/limit/0').then(response => {
                 if (response.data.problem === undefined) {
                     this.contents = response.data.body.contents;
-                    this.validation.not_connection = '';
+                    this.validation.message = '';
                 } else {
                     if (response.data.problem.code === 404) {
-                        this.validation.not_connection = 'Bazada göstəriləcək məzmun yoxdur.';
+                        this.validation.message = 'Bazada göstəriləcək məzmun yoxdur.';
+                        this.validation.messageType = 'warn';
                     } else {
-                        this.validation.not_connection = 'Servere bağlanarkən problem yarandı.';
+                        this.validation.message = 'Servere bağlanarkən problem yarandı.';
                     }
                 }
 
                 // eslint-disable-next-line no-unused-vars
             }).catch((error) => {
-                this.validation.not_connection = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
+                this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
             });
         },
         methods: {
@@ -207,11 +204,11 @@
                         }
                     }
                     this.contents = result.splice(1, 1);
-                    this.validation.not_connection = '';
+                    this.validation.message = '';
                     // eslint-disable-next-line no-unused-vars
                 }).catch((error) => {
                     this.removeId = 0;
-                    this.validation.not_connection = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
+                    this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
                 });
 
             }

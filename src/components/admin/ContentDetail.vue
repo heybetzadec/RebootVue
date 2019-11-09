@@ -1,16 +1,16 @@
 <template>
     <div class="p-grid">
         <div class="p-col-12">
-            <h1>Yeni məzmun</h1>
+            <h1>Məzmun</h1>
             <div class="dash-container">
-                <div class="p-col-12" v-if="validation.error_message">
-                    <Message severity="error">{{validation.error_message}}</Message>
+                <div class="p-col-12" v-if="validation.message">
+                    <Message severity="error">{{validation.message}}</Message>
                 </div>
 
                 <div class="p-col-12" v-if="!this.content">
                     <div style="height: 220px;"></div>
                     <div style="text-align: center">
-                        <ProgressSpinner v-if="!this.content && !validation.error_message"/>
+                        <ProgressSpinner v-if="!this.content && !validation.message"/>
                     </div>
                     <div style="height: 280px;"></div>
                 </div>
@@ -182,7 +182,8 @@
                 loading:true,
                 multiselectedCategories: null,
                 validation: {
-                    error_message: '',
+                    message: '',
+                    messageType: 'error',
                     image: '',
                     title: false,
                     link: false,
@@ -218,14 +219,15 @@
             loadModel() {
                 let id = this.$route.params.id;
 
-                axios.get(appOptions.apiUrl + 'categories/get/offset/0/limit/0').then(response => {
+                axios.get(appOptions.apiUrl + 'categories/get/select').then(response => {
                     this.multiselectCategries = response.data.body.categories;
+                    console.log( this.multiselectCategries);
                     this.loading = false
                     // delete a.Prop1;
                     // eslint-disable-next-line no-unused-vars
                 }).catch((error) => {
                     this.loading = false
-                    this.validation.error_message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
+                    this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
                 });
 
                 if (id === undefined){ // add content
@@ -237,7 +239,7 @@
                         // eslint-disable-next-line no-unused-vars
                     }).catch((error) => {
                         this.loading = false;
-                        this.validation.error_message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin. Xəta: '+error;
+                        this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin. Xəta: '+error;
                     });
                 }  else { // edit content
                     axios.get(appOptions.apiUrl + 'content/get/id/'+id).then(response => {
@@ -249,11 +251,11 @@
                             this.oldImage = this.content.imageName;
                             this.link = this.content.link;
                         } else {
-                            this.validation.error_message = 'Məzmun tapılmadı.';
+                            this.validation.message = 'Məzmun tapılmadı.';
                         }
                     }).catch((error) => {
-                        this.loading = false
-                        this.validation.error_message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin. Xəta: '+error;
+                        this.loading = false;
+                        this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin. Xəta: '+error;
                     });
                 }
             },
@@ -280,7 +282,7 @@
                     this.validation.title = true;
                     return false;
                 }
-                if (this.content.title === '') {
+                if (this.link === '') {
                     this.validation.link = true;
                     return false;
                 }

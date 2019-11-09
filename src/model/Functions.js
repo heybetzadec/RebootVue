@@ -23,6 +23,6 @@ export const Functions = {
     },
 
     htmlToText(str){
-        return 'adasd';//str.replace(/<[^>]*>?/gm, '');
+        return str.replace(/<[^>]*>?/gm, '');
     }
 };

@@ -37,7 +37,7 @@ export default new Router({
 					component: () => import('./components/admin/ContentDetail.vue')
 				},
 				{
-					path: 'category',
+					path: 'categories',
 					component: () => import('./components/admin/Category.vue')
 				},
 				{

@@ -52,6 +52,7 @@ import Tree from 'primevue/tree';
 import TriStateCheckbox from 'primevue/tristatecheckbox';
 import ValidationMessage from 'primevue/validationmessage';
 import ProgressSpinner from 'primevue/progressspinner';
+import TreeTable from 'primevue/treetable';
 
 
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -126,6 +127,7 @@ Vue.component('Toast', Toast);
 Vue.component('Toolbar', Toolbar);
 Vue.component('ToggleButton', ToggleButton);
 Vue.component('Tree', Tree);
+Vue.component('TreeTable', TreeTable);
 Vue.component('TriStateCheckbox', TriStateCheckbox);
 Vue.component('ValidationMessage', ValidationMessage);
 Vue.component('ProgressSpinner', ProgressSpinner);

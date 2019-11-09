@@ -8,8 +8,8 @@
                     <Button class="add-button" icon="pi pi-plus" @click="$router.replace('/dashboard/slider/add')"/>
                 </h1>
                 <div>
-                    <div class="p-col-12" v-if="validation.not_connection">
-                        <Message severity="error">{{validation.not_connection}}</Message>
+                    <div class="p-col-12" v-if="validation.message">
+                        <Message severity="error">{{validation.message}}</Message>
                     </div>
                     <DataTable class="p-datatable-responsive" :value="sliders"
                                :filters="filters" :paginator="true" :rows="10">
@@ -80,7 +80,8 @@
                 removeId: 0,
                 mediaUrl: '',
                 validation: {
-                    not_connection: '',
+                    message: '',
+                    messageType: 'error',
                     remove: ''
                 },
                 filters: {},
@@ -141,11 +142,11 @@
                 console.log(response.data.problem);
                 if (response.data.problem === undefined)
                     this.sliders = response.data.body.sliders;
-                this.validation.not_connection = '';
+                this.validation.message = '';
                 // eslint-disable-next-line no-unused-vars
             }).catch((error) => {
                 console.log(error);
-                this.validation.not_connection = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
+                this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
             });
         },
         methods: {
@@ -182,11 +183,11 @@
                         }
                     }
                     this.sliders = result.splice(1, 1);
-                    this.validation.not_connection = '';
+                    this.validation.message = '';
                     // eslint-disable-next-line no-unused-vars
                 }).catch((error) => {
                     this.removeId = 0;
-                    this.validation.not_connection = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
+                    this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
                 });
 
             }

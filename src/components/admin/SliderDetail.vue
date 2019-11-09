@@ -3,8 +3,8 @@
         <div class="p-col-12">
             <h1>Yeni slayder</h1>
             <div class="dash-container">
-                <div class="p-col-12" v-if="validation.error_message">
-                    <Message severity="error">{{validation.error_message}}</Message>
+                <div class="p-col-12" v-if="validation.message">
+                    <Message severity="error">{{validation.message}}</Message>
                 </div>
                 <div class="p-col-12" v-if="this.slider">
                     <div class="card card-w-title edit-data">
@@ -127,7 +127,8 @@
                 slider: null,
                 multiselectedCategories: null,
                 validation: {
-                    error_message: '',
+                    message: '',
+                    messageType: 'error',
                     image: '',
                 },
                 multiselectCategries: null,
@@ -153,12 +154,12 @@
                             this.imgUrl = appOptions.apiUrl + 'media/' + this.slider.imageName;
                             console.log(this.slider);
                         } else {
-                            this.validation.error_message = 'Məlumat yüklənmədi.';
+                            this.validation.message = 'Məlumat yüklənmədi.';
                         }
                         // eslint-disable-next-line no-unused-vars
                     }).catch((error) => {
                         console.log(error);
-                        this.validation.error_message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
+                        this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
                     });
                 } else {
                     axios.get(appOptions.apiUrl + 'slider/get/id/'+slider_id).then(response => {
@@ -168,12 +169,12 @@
                             this.slider.upDate = new Date(this.slider.updateDate);
                             this.imgUrl = appOptions.apiUrl + 'media/' + this.slider.imageName;
                         } else {
-                            this.validation.error_message = 'Məlumat yüklənmədi.';
+                            this.validation.message = 'Məlumat yüklənmədi.';
                         }
                         // eslint-disable-next-line no-unused-vars
                     }).catch((error) => {
                         console.log(error);
-                        this.validation.error_message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
+                        this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
                     });
                 }
             },
