@@ -26,12 +26,15 @@
                     <TreeTable :value="nodes">
                         <Column field="name" header="Name" :expander="true"></Column>
                         <Column field="title" header="Size"></Column>
-                        <Column>
+                        <Column headerStyle="width: 10em" bodyStyle="text-align: center">
+                            <template #header>
+
+                            </template>
                             <template #body="slotProps">
                                 <div class="align-center button-container">
                                     <Button @click="$router.push('')" icon="pi pi-eye" class="p-button-success"/>
-                                    <Button @click="remove(slotProps.data)" class="p-button-danger" icon="pi pi-trash"/>
-                                    <Button @click="$router.push('content/edit/id/'+slotProps.data.id)" class="p-button-warning" icon="pi pi-pencil"/>
+                                    <Button @click="remove(slotProps.node.data)" class="p-button-danger" icon="pi pi-trash"/>
+                                    <Button @click="$router.push('category/edit/id/'+slotProps.node.data.id)" class="p-button-warning" icon="pi pi-pencil"/>
                                 </div>
                             </template>
                         </Column>

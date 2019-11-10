@@ -221,7 +221,6 @@
 
                 axios.get(appOptions.apiUrl + 'categories/get/select').then(response => {
                     this.multiselectCategries = response.data.body.categories;
-                    console.log( this.multiselectCategries);
                     this.loading = false
                     // delete a.Prop1;
                     // eslint-disable-next-line no-unused-vars
@@ -250,6 +249,8 @@
                             this.imgUrl = appOptions.apiUrl + 'media/' + this.content.imageName;
                             this.oldImage = this.content.imageName;
                             this.link = this.content.link;
+                            this.multiselectedCategories = this.content.categories;
+                            this.tags = this.content.tags;
                         } else {
                             this.validation.message = 'Məzmun tapılmadı.';
                         }
@@ -318,6 +319,11 @@
                 this.content.createDate = moment(this.content.crDate).format('YYYY-MM-DD HH:mm:ss');
                 this.content.updateDate = moment(this.content.upDate).format('YYYY-MM-DD HH:mm:ss');
                 this.content.link = this.link;
+                var tagObject = [];
+                for (let i in this.tags) {
+                    tagObject.push({name: this.tags[i], link: Functions.sef_link(this.tags[i])})
+                }
+                this.content.tags = tagObject;
                 let options = {
                     url: appOptions.apiUrl + 'content/add',
                     method: 'POST',

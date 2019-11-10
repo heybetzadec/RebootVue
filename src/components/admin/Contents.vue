@@ -50,7 +50,7 @@
                                 <InputText type="text" v-model="filters['viewCount']" class="p-column-filter"/>
                             </template>
                         </Column>
-                        <Column>
+                        <Column headerStyle="width: 13em" bodyStyle="text-align: center">
                             <template #body="slotProps">
                                 <div class="align-center button-container">
                                     <Button @click="$router.push('')" icon="pi pi-eye" class="p-button-success"/>
