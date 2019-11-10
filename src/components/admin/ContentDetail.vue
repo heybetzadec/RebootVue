@@ -62,7 +62,7 @@
                                 <label>Kateqoria</label>
                             </div>
                             <div class="p-col-12 p-md-4 p-lg-4">
-                                <MultiSelect class="full-width" v-model="multiselectedCategories" :options="multiselectCategries"
+                                <MultiSelect style="width: 100%" v-model="multiselectedCategories" :options="multiselectCategries"
                                              optionLabel="name" placeholder="Kateqoria"/>
                             </div>
                             <div class="p-col-12 p-md-1 p-lg-1">
@@ -249,8 +249,13 @@
                             this.imgUrl = appOptions.apiUrl + 'media/' + this.content.imageName;
                             this.oldImage = this.content.imageName;
                             this.link = this.content.link;
+                            this.createDate = new Date(this.content.createDate);
+                            this.updateDate = new Date(this.content.updateDate);
                             this.multiselectedCategories = this.content.categories;
-                            this.tags = this.content.tags;
+                            this.tags = [];
+                            for (let i in this.content.tags) {
+                                this.tags.push(this.content.tags[i].name)
+                            }
                         } else {
                             this.validation.message = 'Məzmun tapılmadı.';
                         }
@@ -325,7 +330,7 @@
                 }
                 this.content.tags = tagObject;
                 let options = {
-                    url: appOptions.apiUrl + 'content/add',
+                    url: appOptions.apiUrl + 'content/save',
                     method: 'POST',
                     headers: appOptions.jsonHeader,
                     data: this.content

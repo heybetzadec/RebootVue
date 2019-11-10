@@ -230,6 +230,9 @@
                         this.loading = false;
                         if(response.data.problem === undefined){
                             this.category = response.data.body.category;
+                            this.parentCategory = this.category.parentCategory;
+                                this.createDate = new Date(this.category.createDate);
+                            this.updateDate = new Date(this.category.updateDate);
                             this.link = this.category.link;
                         } else {
                             this.validation.message = 'Məzmun tapılmadı.';
@@ -268,7 +271,7 @@
                 this.category.updateDate = moment(this.category.upDate).format('YYYY-MM-DD HH:mm:ss');
                 this.category.link = this.link;
                 let options = {
-                    url: appOptions.apiUrl + 'category/add',
+                    url: appOptions.apiUrl + 'category/save',
                     method: 'POST',
                     headers: appOptions.jsonHeader,
                     data: this.category

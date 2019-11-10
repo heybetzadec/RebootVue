@@ -24,7 +24,7 @@
                         <div style="height: 220px;"></div>
                     </div>
 
-                    <DataTable v-if="this.contents"  class="p-datatable-responsive" :value="contents"
+                    <DataTable v-if="this.contents"  class="p-datatable-responsive" :value="contents" :resizableColumns="true"
                                :filters="filters" :paginator="true" :rows="10">
                         <template #header>
                             <div style="text-align: right">
@@ -35,7 +35,7 @@
                         <Column field="imageName" header="Şəkil">
                             <template #body="slotProps">
                                 <div class="image-body">
-                                    <img :src="mediaUrl +'media/'+ slotProps.data.imageName" :alt="slotProps.data.brand"
+                                    <img :src="mediaUrl +'media/th_'+ slotProps.data.imageName" :alt="slotProps.data.brand"
                                          class="img-list"/>
                                 </div>
                             </template>
@@ -45,12 +45,17 @@
                                 <InputText type="text" v-model="filters['title']" class="p-column-filter"/>
                             </template>
                         </Column>
-                        <Column field="viewCount" header="Baxış sayı" filterMatchMode="contains" :sortable="true">
+                        <Column field="createDate" header="Yaradılma zamanı" filterMatchMode="contains" :sortable="true">
+                            <template #filter>
+                                <InputText type="text" v-model="filters['createDate']" class="p-column-filter"/>
+                            </template>
+                        </Column>
+                        <Column bodyStyle="text-align: center" field="viewCount" header="Baxış sayı" filterMatchMode="contains" :sortable="true">
                             <template #filter>
                                 <InputText type="text" v-model="filters['viewCount']" class="p-column-filter"/>
                             </template>
                         </Column>
-                        <Column headerStyle="width: 13em" bodyStyle="text-align: center">
+                        <Column bodyStyle="text-align: center">
                             <template #body="slotProps">
                                 <div class="align-center button-container">
                                     <Button @click="$router.push('')" icon="pi pi-eye" class="p-button-success"/>
@@ -65,7 +70,6 @@
                         </template>
                     </DataTable>
                 </div>
-
 
                 <Dialog header="Təsdiqlə" :visible.sync="display" :style="{width: '40vw'}" :modal="true">
                     <h2>{{validation.remove}}</h2>

@@ -118,7 +118,7 @@
             },
             remove(data) {
                 this.display = true;
-                this.validation.remove = data.title + ' - silmək istədiyinizdən əminsiniz?';
+                this.validation.remove = data.name + ' - silmək istədiyinizdən əminsiniz?';
                 this.removeId = data.id;
             },
             // eslint-disable-next-line no-unused-vars
