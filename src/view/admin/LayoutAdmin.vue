@@ -54,6 +54,13 @@
                             {label: 'Katiqoriyalar', icon: 'pi pi-fw pi-list', to: '/dashboard/categories'}
                         ]
                     },
+                    {
+                        label: 'İstifadəçi', icon: 'pi pi-fw pi-user',
+                        items: [
+                            {label: 'Əlavə et', icon: 'pi pi-fw pi-plus', to: '/dashboard/user/add'},
+                            {label: 'İstifadəçilər', icon: 'pi pi-fw pi-list', to: '/dashboard/users'}
+                        ]
+                    },
                     {label: 'Vitrin', icon: 'pi pi-fw pi-images', to: '/dashboard/sliders'},
                     {
                         label: 'Menu Modes', icon: 'pi pi-fw pi-cog',
