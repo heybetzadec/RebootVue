@@ -32,13 +32,11 @@
                         </div>
                         <div class="p-col-12 p-md-4">
                             <div class="login-button-container">
-                                <Button label="Daxil ol" />
+                                <Button label="Daxil ol" @click="login()"/>
                             </div>
                         </div>
                     </div>
                 </Panel>
-
-
             </div>
 
             <div class="p-col-12 p-md-4">
@@ -50,12 +48,73 @@
 </template>
 
 <script>
+
+    import {appOptions} from "../../model/Variables";
+    import {Functions} from "../../model/Functions";
+    let axios = require('axios');
+
     export default {
         data() {
             return {
+                email : "",
+                password : "",
                 checked: false,
             };
         },
+        methods: {
+            login: function () {
+                let username = 'heca';
+                let password = '12345678';
+                let basic = 'Basic ' + window.btoa(username + ':' + password);
+                // var config = {
+                //     "headers": {
+                //         "Authorization": basic
+                //     }
+                // };
+                console.log(config);
+
+                let options = {
+                    url: appOptions.apiUrl + 'user/login',
+                    method: 'POST',
+                    headers: {
+                        'Authorization': basic
+                    },
+                    body: JSON.stringify({ username, password })
+                };
+
+
+                // eslint-disable-next-line no-unused-vars
+                axios(options).then((res) => {
+                    console.log(res);
+                    // this.$router.replace('/login');
+                }).catch((error) => {
+                    console.log(error);
+                });
+
+                // const requestOptions = {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({ username, password })
+                // };
+                //
+                // return fetch(`${config.apiUrl}/users/authenticate`, requestOptions)
+                //     .then(handleResponse)
+                //     .then(user => {
+                //         // login successful if there's a user in the response
+                //         if (user) {
+                //             // store user details and basic auth credentials in local storage
+                //             // to keep user logged in between page refreshes
+                //             user.authdata = window.btoa(username + ':' + password);
+                //             localStorage.setItem('user', JSON.stringify(user));
+                //         }
+                //
+                //         return user;
+                //     });
+            },
+            logout: function () {
+                localStorage.removeItem('user');
+            }
+        }
     };
 
 </script>
@@ -67,7 +126,7 @@
         bottom: 0;
         height: 100%;
         width: 100%;
-        background: #fbfbfb;
+        background: #444444;
         overflow: hidden;
     }
     .panel-header {
