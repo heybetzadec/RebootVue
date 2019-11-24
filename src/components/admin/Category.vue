@@ -89,7 +89,15 @@
         },
         mounted() {
             this.mediaUrl = appOptions.apiUrl;
-            axios.get(appOptions.apiUrl + 'categories/get/offset/0/limit/0').then(response => {
+            // axios.get(appOptions.apiUrl + 'categories/get/offset/0/limit/0').then(response => {
+            let options = {
+                url:appOptions.apiUrl + 'categories/get/offset/0/limit/0',
+                method: 'GET',
+                headers: appOptions.jsonHeaderToken,
+            };
+
+            // eslint-disable-next-line no-unused-vars
+            axios(options).then((response) => {
                 if (response.data.problem === undefined) {
                     this.nodes = response.data.body.categoryNodes;
 
@@ -129,8 +137,9 @@
                 let options = {
                     url: appOptions.apiUrl + 'category/remove/id/' + this.removeId,
                     method: 'GET',
-                    headers: appOptions.jsonHeader,
+                    headers: appOptions.jsonHeaderToken,
                 };
+
                 // eslint-disable-next-line no-unused-vars
                 axios(options).then((res) => {
                     this.removeId = 0;

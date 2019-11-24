@@ -212,7 +212,7 @@
                     let options = {
                         url: appOptions.apiUrl + 'slider/upload/img',
                         method: 'POST',
-                        headers: appOptions.jsonHeader,
+                        headers: appOptions.jsonHeaderToken,
                         data: fd
                     };
                     // eslint-disable-next-line no-unused-vars
@@ -234,7 +234,7 @@
                 let options = {
                     url: appOptions.apiUrl + 'slider/save',
                     method: 'POST',
-                    headers: appOptions.jsonHeader,
+                    headers: appOptions.jsonHeaderToken,
                     data: this.slider
                 };
                 // eslint-disable-next-line no-unused-vars

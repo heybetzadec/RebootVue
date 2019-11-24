@@ -196,7 +196,7 @@
                 let options = {
                     url: appOptions.apiUrl + 'content/remove/id/' + this.removeId,
                     method: 'GET',
-                    headers: appOptions.jsonHeader,
+                    headers: appOptions.jsonHeaderToken,
                 };
                 // eslint-disable-next-line no-unused-vars
                 axios(options).then((res) => {

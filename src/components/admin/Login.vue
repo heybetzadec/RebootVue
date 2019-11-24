@@ -88,8 +88,12 @@
                             'Authorization': basic
                         }
                     };
+
+                    console.log(options);
+
                     // eslint-disable-next-line no-unused-vars
                     axios(options).then((res) => {
+                        console.log(res);
                         if (res.data.status==='OK'){
                             this.error = '';
                             this.username = '';
@@ -99,6 +103,7 @@
                             localStorage.token = token;
                             localStorage.loginUser  = JSON.stringify(loginUser);
 
+                            this.$router.replace('/dashboard');
                             // console.log(localStorage.token);
                             // console.log(JSON.parse(localStorage.loginUser));
                         } else {

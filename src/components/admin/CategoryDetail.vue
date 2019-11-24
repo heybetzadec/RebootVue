@@ -273,7 +273,7 @@
                 let options = {
                     url: appOptions.apiUrl + 'category/save',
                     method: 'POST',
-                    headers: appOptions.jsonHeader,
+                    headers: appOptions.jsonHeaderToken,
                     data: this.category
                 };
                 // eslint-disable-next-line no-unused-vars

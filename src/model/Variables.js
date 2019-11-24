@@ -1,10 +1,13 @@
 export const appOptions = {
-    apiUrl     : 'http://localhost:8081/',
+    apiUrl     : 'http://localhost:8081/secure/',
+    adminPath     : '/dashboard',
+    loginPath     : '/dashboard/login',
     jsonHeader : {
         'Content-Type':'application/json',
-        // 'Access-Control-Allow-Origin': '*',
-        // 'Access-Control-Allow-Methods':'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-        // 'Access-Control-Allow-Headers':'Origin, Content-Type, X-Auth-Token'
+    },
+    jsonHeaderToken : {
+        'Content-Type':'application/json',
+        'Authorisation':'Token '+ localStorage.token
     },
     multipartHeader: {
         // 'Accept': 'application/json',
