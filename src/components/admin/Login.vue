@@ -65,6 +65,15 @@
                 checked: false,
             };
         },
+        mounted() {
+            if (localStorage.token !== undefined){
+                this.$router.replace('/dashboard');
+            } else if (this.$cookie.get('token')) {
+                localStorage.token = this.$cookie.get('token');
+                localStorage.loginUser  = this.$cookie.get('loginUser');
+                this.$router.replace('/dashboard');
+            }
+        },
         methods: {
             login: function () {
                 if (this.username.length < 4) {
@@ -88,12 +97,8 @@
                             'Authorization': basic
                         }
                     };
-
-                    console.log(options);
-
                     // eslint-disable-next-line no-unused-vars
                     axios(options).then((res) => {
-                        console.log(res);
                         if (res.data.status==='OK'){
                             this.error = '';
                             this.username = '';
@@ -102,8 +107,12 @@
                             let loginUser = res.data.body.loginUser;
                             localStorage.token = token;
                             localStorage.loginUser  = JSON.stringify(loginUser);
-
+                            if (this.checked) {
+                                this.$cookie.set('token', token, 7);
+                                this.$cookie.set('loginUser', JSON.stringify(loginUser), 7);
+                            }
                             this.$router.replace('/dashboard');
+
                             // console.log(localStorage.token);
                             // console.log(JSON.parse(localStorage.loginUser));
                         } else {

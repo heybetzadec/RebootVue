@@ -53,6 +53,7 @@ import TriStateCheckbox from 'primevue/tristatecheckbox';
 import ValidationMessage from 'primevue/validationmessage';
 import ProgressSpinner from 'primevue/progressspinner';
 import TreeTable from 'primevue/treetable';
+import VueCookies from 'vue-js-cookie';
 
 
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -131,6 +132,7 @@ Vue.component('TriStateCheckbox', TriStateCheckbox);
 Vue.component('ValidationMessage', ValidationMessage);
 Vue.component('ProgressSpinner', ProgressSpinner);
 
+Vue.use(VueCookies);
 Vue.use(ToastService);
 Vue.use(require('vue-moment'));
 Vue.use(VueCarousel);

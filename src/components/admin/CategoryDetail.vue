@@ -204,7 +204,7 @@
             loadModel() {
                 let id = this.$route.params.id;
 
-                axios.get(appOptions.apiUrl + 'categories/get/select').then(response => {
+                axios.get(appOptions.apiSecureUrl + 'categories/get/select').then(response => {
                     this.parentCategoryOption = response.data.body.categories;
                     this.loading = false
                     // delete a.Prop1;
@@ -215,7 +215,7 @@
                 });
 
                 if (id === undefined){ // add category
-                    axios.get(appOptions.apiUrl + 'category/get/model').then(response => {
+                    axios.get(appOptions.apiSecureUrl + 'category/get/model').then(response => {
                         this.category = response.data;
                         this.createDate = new Date();
                         this.updateDate = new Date();
@@ -226,7 +226,7 @@
                         this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin. Xəta: '+error;
                     });
                 }  else { // edit category
-                    axios.get(appOptions.apiUrl + 'category/get/id/'+id).then(response => {
+                    axios.get(appOptions.apiSecureUrl + 'category/get/id/'+id).then(response => {
                         this.loading = false;
                         if(response.data.problem === undefined){
                             this.category = response.data.body.category;
@@ -271,7 +271,7 @@
                 this.category.updateDate = moment(this.category.upDate).format('YYYY-MM-DD HH:mm:ss');
                 this.category.link = this.link;
                 let options = {
-                    url: appOptions.apiUrl + 'category/save',
+                    url: appOptions.apiSecureUrl + 'category/save',
                     method: 'POST',
                     headers: appOptions.jsonHeaderToken,
                     data: this.category

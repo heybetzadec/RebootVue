@@ -146,12 +146,12 @@
                 if (slider_id === undefined) {
                     let id = this.$route.params.id;
                     let type = this.$route.params.type;
-                    axios.get(appOptions.apiUrl + 'slider/get/model/type/'+type+'/id/'+id).then(response => {
+                    axios.get(appOptions.apiSecureUrl + 'slider/get/model/type/'+type+'/id/'+id).then(response => {
                         if (response.data.status === 'OK') {
                             this.slider = response.data.body.slider;
                             this.slider.crDate = new Date(this.slider.createDate);
                             this.slider.upDate = new Date(this.slider.updateDate);
-                            this.imgUrl = appOptions.apiUrl + 'media/' + this.slider.imageName;
+                            this.imgUrl = appOptions.apiSecureUrl + 'media/' + this.slider.imageName;
                             console.log(this.slider);
                         } else {
                             this.validation.message = 'Məlumat yüklənmədi.';
@@ -162,12 +162,12 @@
                         this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
                     });
                 } else {
-                    axios.get(appOptions.apiUrl + 'slider/get/id/'+slider_id).then(response => {
+                    axios.get(appOptions.apiSecureUrl + 'slider/get/id/'+slider_id).then(response => {
                         if (response.data.status === 'OK') {
                             this.slider = response.data.body.slider;
                             this.slider.crDate = new Date(this.slider.createDate);
                             this.slider.upDate = new Date(this.slider.updateDate);
-                            this.imgUrl = appOptions.apiUrl + 'media/' + this.slider.imageName;
+                            this.imgUrl = appOptions.apiSecureUrl + 'media/' + this.slider.imageName;
                         } else {
                             this.validation.message = 'Məlumat yüklənmədi.';
                         }
@@ -210,7 +210,7 @@
                     fd.append('type', this.$route.params.type);
 
                     let options = {
-                        url: appOptions.apiUrl + 'slider/upload/img',
+                        url: appOptions.apiSecureUrl + 'slider/upload/img',
                         method: 'POST',
                         headers: appOptions.jsonHeaderToken,
                         data: fd
@@ -232,7 +232,7 @@
                 this.slider.updateDate = moment(this.slider.upDate).format('YYYY-MM-DD HH:mm:ss');
                 this.slider.typeId = this.$route.params.type;
                 let options = {
-                    url: appOptions.apiUrl + 'slider/save',
+                    url: appOptions.apiSecureUrl + 'slider/save',
                     method: 'POST',
                     headers: appOptions.jsonHeaderToken,
                     data: this.slider

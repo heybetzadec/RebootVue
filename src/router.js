@@ -6,10 +6,9 @@ Vue.use(Router);
 
 // const authRequired = !publicPages.includes(to.path);
 var loggedIn = false;
-if (localStorage.token !== '') {
+if (localStorage.token !== undefined) {
 	loggedIn = true;
 }
-
 
 export default new Router({
 	// data:{
@@ -162,8 +161,12 @@ export default new Router({
 					path: '',
 					component: () => import('./components/admin/Login.vue')
 				},
+				{
+					path: 'exit',
+					component: () => import('./components/admin/Logout.vue')
+				},
 			]
-		}
+		},
 	],
 	scrollBehavior() {
 		return {x: 0, y: 0};

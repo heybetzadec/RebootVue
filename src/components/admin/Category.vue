@@ -88,16 +88,18 @@
             }
         },
         mounted() {
-            this.mediaUrl = appOptions.apiUrl;
-            // axios.get(appOptions.apiUrl + 'categories/get/offset/0/limit/0').then(response => {
+            this.mediaUrl = appOptions.apiSecureUrl;
+            // axios.get(appOptions.apiSecureUrl + 'categories/get/offset/0/limit/0').then(response => {
             let options = {
-                url:appOptions.apiUrl + 'categories/get/offset/0/limit/0',
+                url:appOptions.apiSecureUrl + 'categories/get/offset/0/limit/0',
                 method: 'GET',
                 headers: appOptions.jsonHeaderToken,
             };
 
+            console.log(options);
             // eslint-disable-next-line no-unused-vars
             axios(options).then((response) => {
+                console.log(response);
                 if (response.data.problem === undefined) {
                     this.nodes = response.data.body.categoryNodes;
 
@@ -135,7 +137,7 @@
                 this.validation.remove = '';
 
                 let options = {
-                    url: appOptions.apiUrl + 'category/remove/id/' + this.removeId,
+                    url: appOptions.apiSecureUrl + 'category/remove/id/' + this.removeId,
                     method: 'GET',
                     headers: appOptions.jsonHeaderToken,
                 };

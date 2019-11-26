@@ -219,7 +219,7 @@
             loadModel() {
                 let id = this.$route.params.id;
 
-                axios.get(appOptions.apiUrl + 'categories/get/select').then(response => {
+                axios.get(appOptions.apiSecureUrl + 'categories/get/select').then(response => {
                     this.multiselectCategries = response.data.body.categories;
                     this.loading = false
                     // delete a.Prop1;
@@ -230,7 +230,7 @@
                 });
 
                 if (id === undefined){ // add content
-                    axios.get(appOptions.apiUrl + 'content/get/model').then(response => {
+                    axios.get(appOptions.apiSecureUrl + 'content/get/model').then(response => {
                         this.content = response.data;
                         this.createDate = new Date();
                         this.updateDate = new Date();
@@ -241,12 +241,12 @@
                         this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin. Xəta: '+error;
                     });
                 }  else { // edit content
-                    axios.get(appOptions.apiUrl + 'content/get/id/'+id).then(response => {
+                    axios.get(appOptions.apiSecureUrl + 'content/get/id/'+id).then(response => {
                         this.loading = false;
                         if(response.data.problem === undefined){
                             this.content = response.data.body.content;
                             // let preview = document.querySelector('#preview_image');
-                            this.imgUrl = appOptions.apiUrl + 'media/' + this.content.imageName;
+                            this.imgUrl = appOptions.apiSecureUrl + 'media/' + this.content.imageName;
                             this.oldImage = this.content.imageName;
                             this.link = this.content.link;
                             this.createDate = new Date(this.content.createDate);
@@ -302,7 +302,7 @@
                     fd.append('file', this.selectedFile, this.content.imageName);
                     fd.append('oldImage', this.oldImage);
                     let options = {
-                        url: appOptions.apiUrl + 'content/upload/img',
+                        url: appOptions.apiSecureUrl + 'content/upload/img',
                         method: 'POST',
                         headers: appOptions.multipartHeader,
                         data: fd
@@ -330,7 +330,7 @@
                 }
                 this.content.tags = tagObject;
                 let options = {
-                    url: appOptions.apiUrl + 'content/save',
+                    url: appOptions.apiSecureUrl + 'content/save',
                     method: 'POST',
                     headers: appOptions.jsonHeaderToken,
                     data: this.content

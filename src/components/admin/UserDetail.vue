@@ -183,7 +183,7 @@
                 this.user = 1
                 // let id = this.$route.params.id;
                 //
-                // axios.get(appOptions.apiUrl + 'categories/get/select').then(response => {
+                // axios.get(appOptions.apiSecureUrl + 'categories/get/select').then(response => {
                 //     this.parentuserOption = response.data.body.categories;
                 //     this.loading = false
                 //     // delete a.Prop1;
@@ -194,7 +194,7 @@
                 // });
                 //
                 // if (id === undefined){ // add user
-                //     axios.get(appOptions.apiUrl + 'user/get/model').then(response => {
+                //     axios.get(appOptions.apiSecureUrl + 'user/get/model').then(response => {
                 //         this.user = response.data;
                 //         this.createDate = new Date();
                 //         this.updateDate = new Date();
@@ -205,7 +205,7 @@
                 //         this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin. Xəta: '+error;
                 //     });
                 // }  else { // edit user
-                //     axios.get(appOptions.apiUrl + 'user/get/id/'+id).then(response => {
+                //     axios.get(appOptions.apiSecureUrl + 'user/get/id/'+id).then(response => {
                 //         this.loading = false;
                 //         if(response.data.problem === undefined){
                 //             this.user = response.data.body.user;
@@ -250,7 +250,7 @@
                 this.user.updateDate = moment(this.user.upDate).format('YYYY-MM-DD HH:mm:ss');
                 this.user.link = this.link;
                 let options = {
-                    url: appOptions.apiUrl + 'user/save',
+                    url: appOptions.apiSecureUrl + 'user/save',
                     method: 'POST',
                     headers: appOptions.jsonHeaderToken,
                     data: this.user

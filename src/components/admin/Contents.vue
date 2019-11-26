@@ -156,8 +156,8 @@
             }
         },
         mounted() {
-            this.mediaUrl = appOptions.apiUrl;
-            axios.get(appOptions.apiUrl + 'contents/get/offset/0/limit/0').then(response => {
+            this.mediaUrl = appOptions.apiSecureUrl;
+            axios.get(appOptions.apiSecureUrl + 'contents/get/offset/0/limit/0').then(response => {
                 if (response.data.problem === undefined) {
                     this.contents = response.data.body.contents;
                     this.validation.message = '';
@@ -194,7 +194,7 @@
                 this.validation.remove = '';
 
                 let options = {
-                    url: appOptions.apiUrl + 'content/remove/id/' + this.removeId,
+                    url: appOptions.apiSecureUrl + 'content/remove/id/' + this.removeId,
                     method: 'GET',
                     headers: appOptions.jsonHeaderToken,
                 };

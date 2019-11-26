@@ -137,8 +137,8 @@
             }
         },
         mounted() {
-            this.mediaUrl = appOptions.apiUrl;
-            axios.get(appOptions.apiUrl + 'slide/get/offset/0/limit/0').then(response => {
+            this.mediaUrl = appOptions.apiSecureUrl;
+            axios.get(appOptions.apiSecureUrl + 'slide/get/offset/0/limit/0').then(response => {
                 console.log(response.data.problem);
                 if (response.data.problem === undefined)
                     this.sliders = response.data.body.sliders;
@@ -169,7 +169,7 @@
                 this.validation.remove = '';
 
                 let options = {
-                    url: appOptions.apiUrl + 'slider/remove/id/' + this.removeId,
+                    url: appOptions.apiSecureUrl + 'slider/remove/id/' + this.removeId,
                     method: 'GET',
                     headers: appOptions.jsonHeaderToken,
                 };
