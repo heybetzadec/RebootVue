@@ -18,13 +18,13 @@
                         <span class="p-inputgroup-addon">
                             <i class="pi pi-user"></i>
                         </span>
-                        <InputText placeholder="İstifadəçi adı" v-model="username"/>
+                        <InputText v-on:keyup.enter="login()" placeholder="İstifadəçi adı" v-model="username"/>
                     </div>
                     <div class="p-inputgroup">
                         <span class="p-inputgroup-addon">
                             <i class="pi pi-key"></i>
                         </span>
-                        <InputText type="password" placeholder="Şifrə" v-model="password"/>
+                        <InputText v-on:keyup.enter="login()" type="password" placeholder="Şifrə" v-model="password"/>
                     </div>
                     <div class="p-grid p-fluid">
                         <div class="p-col-12 p-md-8">
@@ -68,10 +68,13 @@
         mounted() {
             if (localStorage.token !== undefined){
                 this.$router.replace('/dashboard');
+                this.$router.reload();
             } else if (this.$cookie.get('token')) {
                 localStorage.token = this.$cookie.get('token');
                 localStorage.loginUser  = this.$cookie.get('loginUser');
-                this.$router.replace('/dashboard');
+                // this.$router.replace('/dashboard');
+                // this.$router.reload();
+                this.$router.go();
             }
         },
         methods: {
@@ -111,7 +114,10 @@
                                 this.$cookie.set('token', token, 7);
                                 this.$cookie.set('loginUser', JSON.stringify(loginUser), 7);
                             }
-                            this.$router.replace('/dashboard');
+                            // this.$router.replace('/dashboard');
+                            // this.$router.reload();
+
+                            this.$router.go();
 
                             // console.log(localStorage.token);
                             // console.log(JSON.parse(localStorage.loginUser));

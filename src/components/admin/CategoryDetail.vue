@@ -177,7 +177,6 @@
                 createDate: null,
                 updateDate: null,
                 tags:null,
-                loading:true,
                 parentCategory: null,
                 validation: {
                     message: '',
@@ -204,31 +203,26 @@
             loadModel() {
                 let id = this.$route.params.id;
 
-                axios.get(appOptions.apiSecureUrl + 'categories/get/select').then(response => {
+                axios.get(appOptions.apiUrl + 'categories/get/select/id/'+id).then(response => {
                     this.parentCategoryOption = response.data.body.categories;
-                    this.loading = false
                     // delete a.Prop1;
                     // eslint-disable-next-line no-unused-vars
                 }).catch((error) => {
-                    this.loading = false
                     this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
                 });
 
                 if (id === undefined){ // add category
-                    axios.get(appOptions.apiSecureUrl + 'category/get/model').then(response => {
+                    axios.get(appOptions.apiUrl + 'category/get/model').then(response => {
                         this.category = response.data;
                         this.createDate = new Date();
                         this.updateDate = new Date();
-                        this.loading = false
                         // eslint-disable-next-line no-unused-vars
                     }).catch((error) => {
-                        this.loading = false;
                         this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin. Xəta: '+error;
                     });
                 }  else { // edit category
-                    axios.get(appOptions.apiSecureUrl + 'category/get/id/'+id).then(response => {
-                        this.loading = false;
-                        if(response.data.problem === undefined){
+                    axios.get(appOptions.apiUrl + 'category/get/id/'+id).then(response => {
+                        if(response.data.status === 'OK'){
                             this.category = response.data.body.category;
                             this.parentCategory = this.category.parentCategory;
                                 this.createDate = new Date(this.category.createDate);
@@ -238,7 +232,7 @@
                             this.validation.message = 'Məzmun tapılmadı.';
                         }
                     }).catch((error) => {
-                        this.loading = false
+                        console.log(error);
                         this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin. Xəta: '+error;
                     });
                 }

@@ -154,16 +154,26 @@ export default new Router({
 			]
 		},
 		{
-			path: '/dashboard/login',
+			path: appOptions.loginPath,
 			component: () => import('./view/admin/LayoutLogin.vue'),
 			children: [
 				{
 					path: '',
-					component: () => import('./components/admin/Login.vue')
+					component: () => import('./components/admin/Login.vue'),
+					beforeEnter: (to, from, next) => {
+						if (loggedIn){
+							return next({path: appOptions.adminPath });
+						} else {
+							return next();
+						}
+					}
 				},
 				{
 					path: 'exit',
-					component: () => import('./components/admin/Logout.vue')
+					component: () => import('./components/admin/Logout.vue'),
+					// beforeEnter: (to, from, next) => {
+					// 	return next({path: appOptions.loginPath });
+					// }
 				},
 			]
 		},

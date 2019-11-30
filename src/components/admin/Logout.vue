@@ -17,6 +17,8 @@
             this.$cookie.remove('loginUser');
 
             this.$router.replace('/dashboard/login');
+
+            // this.$router.go('/dashboard/login');
         }
     }
 </script>

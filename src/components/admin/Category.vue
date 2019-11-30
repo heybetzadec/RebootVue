@@ -10,20 +10,16 @@
                     <div class="p-col-12" v-if="validation.message">
                         <Message :severity="validation.messageType">{{validation.message}}</Message>
                     </div>
-<!--                    <div class="p-col-12" v-if="!this.categorys">-->
-<!--                        <div style="height: 220px;"></div>-->
-<!--                        <div style="text-align: center">-->
-<!--                            <ProgressSpinner v-if="!this.categorys && !this.validation.message"/>-->
-<!--                        </div>-->
-<!--                        <div style="height: 220px;"></div>-->
-<!--                    </div>-->
 
-<!--                    <TreeTable :value="nodes">-->
-<!--                        <Column v-for="col of columns" :key="col.field"-->
-<!--                                :field="col.field" :header="col.header" :expander="col.expander"></Column>-->
-<!--                    </TreeTable>-->
+                    <div class="p-col-12" v-if="!this.nodes">
+                        <div style="height: 220px;"></div>
+                        <div style="text-align: center">
+                            <ProgressSpinner v-if="!this.validation.message"/>
+                        </div>
+                        <div style="height: 220px;"></div>
+                    </div>
 
-                    <TreeTable :value="nodes">
+                    <TreeTable v-if="this.nodes" :value="nodes">
                         <Column field="name" header="Name" :expander="true"></Column>
                         <Column field="title" header="Size"></Column>
                         <Column headerStyle="width: 10em" bodyStyle="text-align: center">
@@ -39,7 +35,6 @@
                             </template>
                         </Column>
                     </TreeTable>
-
 
                 </div>
 
@@ -91,18 +86,15 @@
             this.mediaUrl = appOptions.apiSecureUrl;
             // axios.get(appOptions.apiSecureUrl + 'categories/get/offset/0/limit/0').then(response => {
             let options = {
-                url:appOptions.apiSecureUrl + 'categories/get/offset/0/limit/0',
+                url:appOptions.apiUrl + 'categories',
                 method: 'GET',
-                headers: appOptions.jsonHeaderToken,
+                headers: appOptions.jsonHeader,
             };
 
-            console.log(options);
             // eslint-disable-next-line no-unused-vars
             axios(options).then((response) => {
-                console.log(response);
-                if (response.data.problem === undefined) {
+                if (response.data.status === 'OK') {
                     this.nodes = response.data.body.categoryNodes;
-
                     this.validation.message = '';
                 } else {
                     if (response.data.problem.code === 404) {
@@ -115,10 +107,12 @@
 
                 // eslint-disable-next-line no-unused-vars
             }).catch((error) => {
+                console.log(error);
                 this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
             });
         },
         methods: {
+
             toggle(event) {
                 this.$refs.menu.toggle(event);
             },
@@ -142,21 +136,27 @@
                     headers: appOptions.jsonHeaderToken,
                 };
 
+                console.log(options);
+
                 // eslint-disable-next-line no-unused-vars
-                axios(options).then((res) => {
-                    this.removeId = 0;
-                    var result = this.categorys;
-                    for (var k in result) {
-                        if (this.removeId === result[k].id) {
-                            delete result[k];
-                        }
+                axios(options).then((response) => {
+                    if (response.data.status === 'OK') {
+                        this.nodes = response.data.body.categoryNodes;
                     }
-                    this.categorys = result.splice(1, 1);
-                    this.validation.message = '';
+                    // this.removeId = 0;
+                    // var result = this.categorys;
+                    // for (var k in result) {
+                    //     if (this.removeId === result[k].id) {
+                    //         delete result[k];
+                    //     }
+                    // }
+                    // this.categorys = result.splice(1, 1);
+                    // this.validation.message = '';
                     // eslint-disable-next-line no-unused-vars
                 }).catch((error) => {
-                    this.removeId = 0;
-                    this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
+                    console.log(error);
+                    // this.removeId = 0;
+                    // this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
                 });
 
             }

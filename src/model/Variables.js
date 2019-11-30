@@ -7,6 +7,7 @@ export const appOptions = {
         'Content-Type':'application/json',
     },
     jsonHeaderToken : {
+        'Content-Type':'application/json',
         'Authorisation':'Token '+ localStorage.token
     },
     multipartHeader: {
