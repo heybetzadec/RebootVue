@@ -143,7 +143,7 @@
 
                         <div class="p-grid">
                             <div class="p-col-8">
-
+                                <ProgressBar v-if="indeterminate" mode="indeterminate"/>
                             </div>
                             <div class="p-col-2">
                                 <Button label="Geri" class="p-button-danger full-width" @click="$router.go(-1)"/>
@@ -180,6 +180,7 @@
                 updateDate: null,
                 tags:null,
                 loading:true,
+                indeterminate: false,
                 multiselectedCategories: null,
                 validation: {
                     message: '',
@@ -211,7 +212,6 @@
             },
             linkChange(){
                 this.link = Functions.sef_link(this.link);
-                // console.log(this.link);
             },
             titleChange(){
                 this.link = Functions.sef_link(this.content.title);
@@ -219,34 +219,36 @@
             loadModel() {
                 let id = this.$route.params.id;
 
-                axios.get(appOptions.apiSecureUrl + 'categories/get/select').then(response => {
+                axios.get(appOptions.apiUrl + 'categories/get/select/id/0').then(response => {
                     this.multiselectCategries = response.data.body.categories;
                     this.loading = false
                     // delete a.Prop1;
                     // eslint-disable-next-line no-unused-vars
                 }).catch((error) => {
-                    this.loading = false
+                    this.loading = false;
                     this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
                 });
 
                 if (id === undefined){ // add content
-                    axios.get(appOptions.apiSecureUrl + 'content/get/model').then(response => {
+                    axios.get(appOptions.apiUrl + 'content/get/model').then(response => {
                         this.content = response.data;
                         this.createDate = new Date();
                         this.updateDate = new Date();
                         this.loading = false
                         // eslint-disable-next-line no-unused-vars
                     }).catch((error) => {
+                        console.log(error);
                         this.loading = false;
                         this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin. Xəta: '+error;
                     });
                 }  else { // edit content
-                    axios.get(appOptions.apiSecureUrl + 'content/get/id/'+id).then(response => {
+                    axios.get(appOptions.apiUrl + 'content/get/id/'+id).then(response => {
                         this.loading = false;
-                        if(response.data.problem === undefined){
+                        if(response.data.status === 'OK'){
                             this.content = response.data.body.content;
+                            console.log(this.content);
                             // let preview = document.querySelector('#preview_image');
-                            this.imgUrl = appOptions.apiSecureUrl + 'media/' + this.content.imageName;
+                            this.imgUrl = appOptions.apiUrl + 'media/' + this.content.imageName;
                             this.oldImage = this.content.imageName;
                             this.link = this.content.link;
                             this.createDate = new Date(this.content.createDate);
@@ -260,6 +262,7 @@
                             this.validation.message = 'Məzmun tapılmadı.';
                         }
                     }).catch((error) => {
+                        console.log(error);
                         this.loading = false;
                         this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin. Xəta: '+error;
                     });
@@ -284,6 +287,7 @@
                 }
             },
             handleSave: function () {
+                this.indeterminate = true;
                 if (this.content.title === '') {
                     this.validation.title = true;
                     return false;
@@ -298,7 +302,6 @@
                     let pref = n.toString().substr(8, n.length);
                     const fd = new FormData();
                     this.content.imageName = pref + '_' + this.selectedFile.name;
-
                     fd.append('file', this.selectedFile, this.content.imageName);
                     fd.append('oldImage', this.oldImage);
                     let options = {
@@ -312,6 +315,7 @@
                         this.saveContent();
                         // eslint-disable-next-line no-unused-vars
                     }).catch((error) => {
+                        this.indeterminate = false;
                         console.log(error);
                         this.content.imageName = null;
                     });
@@ -320,10 +324,17 @@
                 }
             },
             saveContent() {
+
+                if (this.content.imageName === '') {
+                    this.validation.image = 'Şəkil seçin.';
+                    return false;
+                }
+
                 this.content.categories = this.multiselectedCategories;
                 this.content.createDate = moment(this.content.crDate).format('YYYY-MM-DD HH:mm:ss');
                 this.content.updateDate = moment(this.content.upDate).format('YYYY-MM-DD HH:mm:ss');
                 this.content.link = this.link;
+
                 var tagObject = [];
                 for (let i in this.tags) {
                     tagObject.push({name: this.tags[i], link: Functions.sef_link(this.tags[i])})
@@ -337,8 +348,10 @@
                 };
                 // eslint-disable-next-line no-unused-vars
                 axios(options).then((res) => {
-                    this.$router.replace('/dashboard/contents');
+                    this.indeterminate = false;
+                    this.$router.replace(appOptions.adminPath+'/contents');
                 }).catch((error) => {
+                    this.indeterminate = false;
                     console.log(error);
                 });
             }

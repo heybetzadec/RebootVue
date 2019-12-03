@@ -13,5 +13,6 @@ export const appOptions = {
     multipartHeader: {
         // 'Accept': 'application/json',
         'Content-Type':'multipart/form-data',
+        'Authorisation':'Token '+ localStorage.token
     }
 };

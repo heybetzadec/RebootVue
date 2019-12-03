@@ -72,7 +72,6 @@
                 selectedcategoryId: 0,
                 display: false,
                 removeId: 0,
-                mediaUrl: '',
                 validation: {
                     message: '',
                     messageType: 'error',
@@ -83,7 +82,6 @@
             }
         },
         mounted() {
-            this.mediaUrl = appOptions.apiSecureUrl;
             // axios.get(appOptions.apiSecureUrl + 'categories/get/offset/0/limit/0').then(response => {
             let options = {
                 url:appOptions.apiUrl + 'categories',
@@ -136,23 +134,12 @@
                     headers: appOptions.jsonHeaderToken,
                 };
 
-                console.log(options);
 
                 // eslint-disable-next-line no-unused-vars
                 axios(options).then((response) => {
                     if (response.data.status === 'OK') {
                         this.nodes = response.data.body.categoryNodes;
                     }
-                    // this.removeId = 0;
-                    // var result = this.categorys;
-                    // for (var k in result) {
-                    //     if (this.removeId === result[k].id) {
-                    //         delete result[k];
-                    //     }
-                    // }
-                    // this.categorys = result.splice(1, 1);
-                    // this.validation.message = '';
-                    // eslint-disable-next-line no-unused-vars
                 }).catch((error) => {
                     console.log(error);
                     // this.removeId = 0;

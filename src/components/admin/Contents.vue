@@ -152,13 +152,12 @@
                         ],
                     }
                 ],
-
             }
         },
         mounted() {
-            this.mediaUrl = appOptions.apiSecureUrl;
-            axios.get(appOptions.apiSecureUrl + 'contents/get/offset/0/limit/0').then(response => {
-                if (response.data.problem === undefined) {
+            this.mediaUrl = appOptions.apiUrl;
+            axios.get(appOptions.apiUrl + 'contents/get/offset/0/limit/0').then(response => {
+                if (response.data.status === 'OK') {
                     this.contents = response.data.body.contents;
                     this.validation.message = '';
                 } else {
@@ -169,7 +168,6 @@
                         this.validation.message = 'Servere bağlanarkən problem yarandı.';
                     }
                 }
-
                 // eslint-disable-next-line no-unused-vars
             }).catch((error) => {
                 this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
@@ -199,16 +197,20 @@
                     headers: appOptions.jsonHeaderToken,
                 };
                 // eslint-disable-next-line no-unused-vars
-                axios(options).then((res) => {
-                    this.removeId = 0;
-                    var result = this.contents;
-                    for (var k in result) {
-                        if (this.removeId === result[k].id) {
-                            delete result[k];
+                axios(options).then((response) => {
+                    if (response.data.status === 'OK') {
+                        this.removeId = 0;
+                        var result = this.contents;
+                        for (var k in result) {
+                            if (this.removeId === result[k].id) {
+                                delete result[k];
+                            }
                         }
+                        this.contents = result.splice(1, 1);
+                        this.validation.message = '';
+                    } else  {
+                        this.validation.message = 'Silinmə zamanı problem yarandı';
                     }
-                    this.contents = result.splice(1, 1);
-                    this.validation.message = '';
                     // eslint-disable-next-line no-unused-vars
                 }).catch((error) => {
                     this.removeId = 0;
