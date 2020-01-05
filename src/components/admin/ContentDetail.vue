@@ -63,10 +63,10 @@
                             </div>
                             <div class="p-col-12 p-md-4 p-lg-4">
                                 <MultiSelect style="width: 100%" v-model="multiselectedCategories" :options="multiselectCategries"
-                                             optionLabel="name" placeholder="Kateqoria"/>
+                                             optionLabel="name" placeholder="---"/>
                             </div>
                             <div class="p-col-12 p-md-1 p-lg-1">
-
+                                <ValidationMessage v-if="this.validation.category"></ValidationMessage>
                             </div>
                             <div class="p-col-12 p-md-2 p-lg-2">
                                 <label>Yayımla</label>
@@ -94,7 +94,6 @@
                                 <InputText class="full-width"  v-model="content.keyword"/>
                             </div>
                         </div>
-
 
                         <div class="p-grid">
                             <div class="p-col-12 p-md-1 p-lg-1">
@@ -137,6 +136,8 @@
                         </div>
 
                         <h1>Məzmun</h1>
+
+                        <ValidationMessage style="width: 100%" v-if="validation.html">{{validation.html}}</ValidationMessage>
                         <Editor v-model="content.html" editorStyle="height: 320px"/>
 
                         <div class="empty20"></div>
@@ -186,8 +187,10 @@
                     message: '',
                     messageType: 'error',
                     image: '',
+                    html: '',
                     title: false,
                     link: false,
+                    category: false
                 },
                 multiselectCategries: null
             };
@@ -222,7 +225,6 @@
                 axios.get(appOptions.apiUrl + 'categories/get/select/id/0').then(response => {
                     this.multiselectCategries = response.data.body.categories;
                     this.loading = false
-                    // delete a.Prop1;
                     // eslint-disable-next-line no-unused-vars
                 }).catch((error) => {
                     this.loading = false;
@@ -288,14 +290,50 @@
             },
             handleSave: function () {
                 this.indeterminate = true;
+                // this.validation.title = false;
+                // this.validation.link = false;
+                // this.validation.content = '';
+                // this.validation.category = false;
+
+                var r = false;
                 if (this.content.title === '') {
                     this.validation.title = true;
-                    return false;
+                    this.indeterminate = false;
+                    console.log('title empty');
+                    r =  true;
+                } else {
+                    this.validation.title = false;
                 }
                 if (this.link === '') {
                     this.validation.link = true;
-                    return false;
+                    this.indeterminate = false;
+                    console.log('link empty');
+                    r =  true;
+                } else {
+                    this.validation.link = false;
                 }
+
+                if (this.content.html === undefined) {
+                    this.validation.html = 'Məzmun daxil edin!';
+                    this.indeterminate = false;
+                    console.log('content empty');
+                    r =  true;
+                } else {
+                    this.validation.html = '';
+                }
+                if (this.multiselectedCategories === null) {
+                    this.validation.category = true;
+                    this.indeterminate = false;
+                    console.log('multiselectedCategories empty');
+                    r =  true;
+                } else {
+                    this.validation.category = false;
+                }
+
+                if (r){
+                    return null;
+                }
+
                 if (this.selectedFile !== null) {
                     let d = new Date();
                     let n = d.getTime();
@@ -327,7 +365,8 @@
 
                 if (this.content.imageName === '') {
                     this.validation.image = 'Şəkil seçin.';
-                    return false;
+                    this.indeterminate = false;
+                    return null;
                 }
 
                 this.content.categories = this.multiselectedCategories;
@@ -346,6 +385,7 @@
                     headers: appOptions.jsonHeaderToken,
                     data: this.content
                 };
+                console.log(this.content);
                 // eslint-disable-next-line no-unused-vars
                 axios(options).then((res) => {
                     this.indeterminate = false;

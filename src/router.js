@@ -108,6 +108,39 @@ export default new Router({
 					}
 				},
 				{
+					path: 'users',
+					component: () => import('./components/admin/User.vue'),
+					beforeEnter: (to, from, next) => {
+						if (loggedIn){
+							return next();
+						} else {
+							return next({ path: appOptions.loginPath });
+						}
+					}
+				},
+				{
+					path: 'user/add',
+					component: () => import('./components/admin/UserDetail.vue'),
+					beforeEnter: (to, from, next) => {
+						if (loggedIn){
+							return next();
+						} else {
+							return next({ path: appOptions.loginPath });
+						}
+					}
+				},
+				{
+					path: 'user/edit/id/:id',
+					component: () => import('./components/admin/UserDetail.vue'),
+					beforeEnter: (to, from, next) => {
+						if (loggedIn){
+							return next();
+						} else {
+							return next({ path: appOptions.loginPath });
+						}
+					}
+				},
+				{
 					path: 'sliders',
 					component: () => import('./components/admin/Slider.vue'),
 					beforeEnter: (to, from, next) => {

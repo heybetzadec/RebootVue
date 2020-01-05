@@ -180,47 +180,36 @@
                 this.username = Functions.sef_link(this.user.name);
             },
             loadModel() {
-                this.user = 1
-                // let id = this.$route.params.id;
-                //
-                // axios.get(appOptions.apiSecureUrl + 'categories/get/select').then(response => {
-                //     this.parentuserOption = response.data.body.categories;
-                //     this.loading = false
-                //     // delete a.Prop1;
-                //     // eslint-disable-next-line no-unused-vars
-                // }).catch((error) => {
-                //     this.loading = false
-                //     this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
-                // });
-                //
-                // if (id === undefined){ // add user
-                //     axios.get(appOptions.apiSecureUrl + 'user/get/model').then(response => {
-                //         this.user = response.data;
-                //         this.createDate = new Date();
-                //         this.updateDate = new Date();
-                //         this.loading = false
-                //         // eslint-disable-next-line no-unused-vars
-                //     }).catch((error) => {
-                //         this.loading = false;
-                //         this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin. Xəta: '+error;
-                //     });
-                // }  else { // edit user
-                //     axios.get(appOptions.apiSecureUrl + 'user/get/id/'+id).then(response => {
-                //         this.loading = false;
-                //         if(response.data.problem === undefined){
-                //             this.user = response.data.body.user;
-                //             this.parentuser = this.user.parentuser;
-                //             this.createDate = new Date(this.user.createDate);
-                //             this.updateDate = new Date(this.user.updateDate);
-                //             this.link = this.user.link;
-                //         } else {
-                //             this.validation.message = 'Məzmun tapılmadı.';
-                //         }
-                //     }).catch((error) => {
-                //         this.loading = false
-                //         this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin. Xəta: '+error;
-                //     });
-                // }
+                this.user = 1;
+                let id = this.$route.params.id;
+
+
+                if (id === undefined){ // add user
+                    axios.get(appOptions.apiUrl + 'user/get/model').then(response => {
+                        this.user = response.data;
+                        this.createDate = new Date();
+                        this.updateDate = new Date();
+                        this.loading = false
+                        // eslint-disable-next-line no-unused-vars
+                    }).catch((error) => {
+                        this.loading = false;
+                        this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin. Xəta: '+error;
+                    });
+                }  else { // edit user
+                    axios.get(appOptions.apiUrl + 'user/get/id/'+id).then(response => {
+                        this.loading = false;
+                        if(response.data.status === 'OK'){
+                            this.user = response.data.body.user;
+                            this.createDate = new Date(this.user.createDate);
+                            this.updateDate = new Date(this.user.updateDate);
+                        } else {
+                            this.validation.message = 'Məzmun tapılmadı.';
+                        }
+                    }).catch((error) => {
+                        this.loading = false
+                        this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin. Xəta: '+error;
+                    });
+                }
             },
             handleSave: function () {
                 if (this.user.title === '') {

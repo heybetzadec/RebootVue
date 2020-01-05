@@ -24,25 +24,26 @@
                         <div style="height: 220px;"></div>
                     </div>
 
-                    <DataTable v-if="this.contents"  class="p-datatable-responsive" :value="contents" :resizableColumns="true"
-                               :filters="filters" :paginator="true" :rows="10">
+                    <DataTable v-if="this.contents" :value="contents" :expandedRows.sync="expandedRows" dataKey="title" @row-expand="onRowExpand" @row-collapse="onRowCollapse" :filters="filters">
                         <template #header>
+                            <div class="table-header-container">
+                                <Button icon="pi pi-plus" label="Expand All" @click="expandAll" />
+                                <Button icon="pi pi-minus" label="Collapse All" @click="collapseAll" />
+                            </div>
                             <div style="text-align: right">
                                 <i class="pi pi-search" style="margin: 4px 4px 0px 0px;"></i>
                                 <InputText v-model="filters['global']" placeholder="Global Search" size="50"/>
                             </div>
                         </template>
-                        <Column field="imageName" header="Şəkil">
-                            <template #body="slotProps">
-                                <div class="image-body">
-                                    <img :src="mediaUrl +'media/th_'+ slotProps.data.imageName" :alt="slotProps.data.brand"
-                                         class="img-list"/>
-                                </div>
-                            </template>
-                        </Column>
-                        <Column field="title" header="Başlıq" filterMatchMode="contains" :sortable="true">
+                        <Column :expander="true" headerStyle="width: 3em" />
+                        <Column header="Başlıq" filterMatchMode="contains" :sortable="true">
                             <template #filter>
                                 <InputText type="text" v-model="filters['title']" class="p-column-filter"/>
+                            </template>
+                            <template #body="slotProps">
+                                <div :class="['red-text', {'black-text': slotProps.data.visible}]">
+                                    {{slotProps.data.title}}
+                                </div>
                             </template>
                         </Column>
                         <Column field="createDate" header="Yaradılma zamanı" filterMatchMode="contains" :sortable="true">
@@ -50,7 +51,7 @@
                                 <InputText type="text" v-model="filters['createDate']" class="p-column-filter"/>
                             </template>
                         </Column>
-                        <Column bodyStyle="text-align: center" field="viewCount" header="Baxış sayı" filterMatchMode="contains" :sortable="true">
+                        <Column bodyStyle="text-align: center"  headerStyle="width: 8em"  field="viewCount" header="Baxış sayı" filterMatchMode="contains" :sortable="true">
                             <template #filter>
                                 <InputText type="text" v-model="filters['viewCount']" class="p-column-filter"/>
                             </template>
@@ -65,10 +66,21 @@
                                 </div>
                             </template>
                         </Column>
-                        <template #empty>
-                            Heçbir Qeyd Tapılmadı.
+                        <template #expansion="slotProps">
+                            <div class="car-details">
+                                <div class="detail-content">
+                                    <img style="width: 200px;" :src="mediaUrl +'media/th_'+ slotProps.data.imageName" :alt="slotProps.data.imageName"/>
+                                    <div class="p-grid">
+                                        <div class="p-col-12 p-md-6 p-lg-3">Başlıq: <b>{{slotProps.data.title}}</b></div>
+                                        <div class="p-col-12 p-md-6 p-lg-3">Yaradılma zamanı: <b>{{slotProps.data.createDate}}</b></div>
+                                        <div class="p-col-12 p-md-6 p-lg-3">Redaktə zamanı: <b>{{slotProps.data.createDate}}</b></div>
+                                        <div class="p-col-12 p-md-6 p-lg-3">Baxış sayı: <b>{{slotProps.data.viewCount}}</b></div>
+                                    </div>
+                                </div>
+                            </div>
                         </template>
                     </DataTable>
+
                 </div>
 
                 <Dialog header="Təsdiqlə" :visible.sync="display" :style="{width: '40vw'}" :modal="true">
@@ -105,6 +117,7 @@
                 },
                 filters: {},
                 contents: null,
+                expandedRows: [],
                 items: [
                     {
                         label: 'Slayder',
@@ -217,6 +230,20 @@
                     this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
                 });
 
+            },
+            onRowExpand(event) {
+                this.$toast.add({severity: 'info', summary: 'Row Expanded', detail: 'Vin: ' + event.data.vin, life: 3000});
+            },
+            onRowCollapse(event) {
+                this.$toast.add({severity: 'success', summary: 'Row Collapsed', detail: 'Vin: ' + event.data.vin, life: 3000});
+            },
+            expandAll() {
+                this.expandedRows = this.contents.filter(car => car.title);
+                this.$toast.add({severity: 'success', summary: 'All Rows Expanded', life: 3000});
+            },
+            collapseAll() {
+                this.expandedRows = null;
+                this.$toast.add({severity: 'success', summary: 'All Rows Collapsed', life: 3000});
             }
         }
     }
@@ -227,6 +254,23 @@
     }
 </style>
 <style lang="css">
+    .detail-content{
+        width: 100%;
+        margin: 7px 0px 0px 0px;
+    }
+    .detail-content img{
+        float:left;
+    }
+
+    .detail-content p-grid{
+        float:left;
+    }
+    .red-text {
+        color: #a83d3b;
+    }
+    .red-text {
+        color: #000000;
+    }
     .card {
         min-height: 632px;
     }
@@ -245,7 +289,7 @@
         width: fit-content;
     }
     .button-container button {
-        margin: 2px 5px 2px 0;
+        margin: 0px 5px 0px 0;
     }
     a.p-menuitem-link {
         text-align: left;
