@@ -4,7 +4,7 @@
 
             <div class="card">
                 <h1>İstifadəçilər
-                    <Button class="add-button" icon="pi pi-plus" @click="$router.replace('/dashboard/content/add')"/>
+                    <Button class="add-button" icon="pi pi-plus" @click="$router.replace('/dashboard/user/add')"/>
                 </h1>
                 <div>
                     <div class="p-col-12" v-if="validation.message">
@@ -35,6 +35,11 @@
                                 <InputText type="text" v-model="filters['surname']" class="p-column-filter" />
                             </template>
                         </Column>
+                        <Column field="username" header="İstifadəçi adı" filterMatchMode="startsWith">
+                            <template #filter>
+                                <InputText type="text" v-model="filters['username']" class="p-column-filter" />
+                            </template>
+                        </Column>
                         <Column field="mail" header="EPoçt" filterMatchMode="startsWith">
                             <template #filter>
                                 <InputText type="text" v-model="filters['mail']" class="p-column-filter" />
@@ -48,6 +53,11 @@
                         <Column field="lastLoginDate" header="Son daxilolma" filterMatchMode="startsWith">
                             <template #filter>
                                 <InputText type="text" v-model="filters['lastLoginDate']" class="p-column-filter" />
+                            </template>
+                            <template #body="slotProps">
+                                <div class="align-center">
+                                    {{dateFormatter(slotProps.data.lastLoginDate)}}
+                                </div>
                             </template>
                         </Column>
                         <Column bodyStyle="text-align: center">
@@ -70,7 +80,7 @@
                     <h2>{{validation.remove}}</h2>
                     <template #footer>
                         <Button label="Geri" icon="pi pi-times" @click="display=false" class="p-button-secondary"/>
-                        <Button label="Sil" icon="pi pi-check" @click="removeContent($event)" class="p-button-danger"/>
+                        <Button label="Sil" icon="pi pi-check" @click="removeUser($event)" class="p-button-danger"/>
                     </template>
                 </Dialog>
 
@@ -83,13 +93,15 @@
 
     import {appOptions} from "../../model/Variables";
 
+    let moment = require('moment');
+
     let axios = require('axios');
 
     export default {
         data() {
             return {
                 visibleRight: false,
-                selectedContentId: 0,
+                selectedUserId: 0,
                 display: false,
                 removeId: 0,
                 mediaUrl: '',
@@ -107,7 +119,7 @@
             this.mediaUrl = appOptions.apiUrl;
             axios.get(appOptions.apiUrl + 'users').then(response => {
                 if (response.data.status === 'OK') {
-                    this.users = response.data.body.userData;
+                    this.users = response.data.body.usersData;
                     this.validation.message = '';
                 } else {
                     if (response.data.problem.code === 404) {
@@ -128,7 +140,13 @@
             },
             openRight(id) {
                 this.visibleRight = true;
-                this.selectedContentId = id;
+                this.selectedUserId = id;
+            },
+            dateFormatter(d){
+                if (d === '' || d === null) {
+                    return ''
+                }
+               return moment(d).format('YYYY-MM-DD HH:mm:ss');
             },
             remove(data) {
                 this.display = true;
@@ -136,19 +154,19 @@
                 this.removeId = data.id;
             },
             // eslint-disable-next-line no-unused-vars
-            removeContent(id) {
+            removeUser(id) {
                 this.display = false;
                 this.validation.remove = '';
 
                 let options = {
-                    url: appOptions.apiSecureUrl + 'content/remove/id/' + this.removeId,
+                    url: appOptions.apiSecureUrl + 'user/remove/id/' + this.removeId,
                     method: 'GET',
                     headers: appOptions.jsonHeaderToken,
                 };
                 // eslint-disable-next-line no-unused-vars
                 axios(options).then((response) => {
                     if (response.data.status === 'OK') {
-                        this.removeId = 0;
+                        // this.removeId = 0;
                         var result = this.users;
                         for (var k in result) {
                             if (this.removeId === result[k].id) {

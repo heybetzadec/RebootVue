@@ -20,8 +20,8 @@
                     </div>
 
                     <TreeTable v-if="this.nodes" :value="nodes">
-                        <Column field="name" header="Name" :expander="true"></Column>
-                        <Column field="title" header="Size"></Column>
+                        <Column field="name" header="Ad" :expander="true"></Column>
+                        <Column field="title" header="Başlıq"></Column>
                         <Column headerStyle="width: 10em" bodyStyle="text-align: center">
                             <template #header>
 
@@ -46,6 +46,8 @@
                         <Button label="Sil" icon="pi pi-check" @click="removecategory($event)" class="p-button-danger"/>
                     </template>
                 </Dialog>
+
+                <Toast />
 
             </div>
 
@@ -134,11 +136,11 @@
                     headers: appOptions.jsonHeaderToken,
                 };
 
-
                 // eslint-disable-next-line no-unused-vars
                 axios(options).then((response) => {
                     if (response.data.status === 'OK') {
                         this.nodes = response.data.body.categoryNodes;
+                        this.$toast.add({severity:'success', summary: 'Uğurla silindi'});
                     }
                 }).catch((error) => {
                     console.log(error);

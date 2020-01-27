@@ -27,15 +27,21 @@
                     <DataTable v-if="this.contents" :value="contents" :expandedRows.sync="expandedRows" dataKey="title" @row-expand="onRowExpand" @row-collapse="onRowCollapse" :filters="filters">
                         <template #header>
                             <div class="table-header-container">
-                                <Button icon="pi pi-plus" label="Expand All" @click="expandAll" />
-                                <Button icon="pi pi-minus" label="Collapse All" @click="collapseAll" />
+                                <Button class="p-button-secondary" icon="pi pi-chevron-right" @click="collapseAll" />
+                                <Button class="p-button-secondary" icon="pi pi-chevron-down" @click="expandAll"/>
                             </div>
                             <div style="text-align: right">
                                 <i class="pi pi-search" style="margin: 4px 4px 0px 0px;"></i>
                                 <InputText v-model="filters['global']" placeholder="Global Search" size="50"/>
                             </div>
                         </template>
-                        <Column :expander="true" headerStyle="width: 3em" />
+                        <Column :expander="true" headerStyle="width: 3em" >
+                            <template #header>
+                                <div class="collapseAll">
+                                    <Button style="width: 1.5em;" class="p-button-secondary" icon="pi pi-caret-down"  @click="collapseSelect" />
+                                </div>
+                            </template>
+                        </Column>
                         <Column header="Başlıq" filterMatchMode="contains" :sortable="true">
                             <template #filter>
                                 <InputText type="text" v-model="filters['title']" class="p-column-filter"/>
@@ -69,7 +75,7 @@
                         <template #expansion="slotProps">
                             <div class="car-details">
                                 <div class="detail-content">
-                                    <img style="width: 200px;" :src="mediaUrl +'media/th_'+ slotProps.data.imageName" :alt="slotProps.data.imageName"/>
+                                    <img style="width: 200px;" :src="mediaUrl +'th_'+ slotProps.data.imageName" :alt="slotProps.data.imageName"/>
                                     <div class="p-grid">
                                         <div class="p-col-12 p-md-6 p-lg-3">Başlıq: <b>{{slotProps.data.title}}</b></div>
                                         <div class="p-col-12 p-md-6 p-lg-3">Yaradılma zamanı: <b>{{slotProps.data.createDate}}</b></div>
@@ -91,6 +97,8 @@
                     </template>
                 </Dialog>
 
+                <Toast />
+
             </div>
 
         </div>
@@ -105,6 +113,7 @@
     export default {
         data() {
             return {
+                collapseAllOn:false,
                 visibleRight: false,
                 selectedContentId: 0,
                 display: false,
@@ -117,6 +126,7 @@
                 },
                 filters: {},
                 contents: null,
+                contentThubnailImageMediaPath: null,
                 expandedRows: [],
                 items: [
                     {
@@ -172,6 +182,7 @@
             axios.get(appOptions.apiUrl + 'contents/get/offset/0/limit/0').then(response => {
                 if (response.data.status === 'OK') {
                     this.contents = response.data.body.contents;
+                    this.mediaUrl = appOptions.apiUrl + response.data.body.contentThubnailImageMediaPath;
                     this.validation.message = '';
                 } else {
                     if (response.data.problem.code === 404) {
@@ -212,7 +223,7 @@
                 // eslint-disable-next-line no-unused-vars
                 axios(options).then((response) => {
                     if (response.data.status === 'OK') {
-                        this.removeId = 0;
+                        // this.removeId = 0;
                         var result = this.contents;
                         for (var k in result) {
                             if (this.removeId === result[k].id) {
@@ -221,6 +232,7 @@
                         }
                         this.contents = result.splice(1, 1);
                         this.validation.message = '';
+                        this.$toast.add({severity:'success', summary: 'Uğurla silindi'});
                     } else  {
                         this.validation.message = 'Silinmə zamanı problem yarandı';
                     }
@@ -232,18 +244,27 @@
 
             },
             onRowExpand(event) {
-                this.$toast.add({severity: 'info', summary: 'Row Expanded', detail: 'Vin: ' + event.data.vin, life: 3000});
+                // this.$toast.add({severity: 'info', summary: 'Row Expanded', detail: 'Vin: ' + event.data.vin, life: 3000});
             },
             onRowCollapse(event) {
-                this.$toast.add({severity: 'success', summary: 'Row Collapsed', detail: 'Vin: ' + event.data.vin, life: 3000});
+                // this.$toast.add({severity: 'success', summary: 'Row Collapsed', detail: 'Vin: ' + event.data.vin, life: 3000});
+            },
+            collapseSelect(){
+                if (this.collapseAllOn){
+                    this.collapseAll();
+                    this.collapseAllOn = false;
+                } else {
+                    this.expandAll();
+                    this.collapseAllOn = true;
+                }
             },
             expandAll() {
-                this.expandedRows = this.contents.filter(car => car.title);
-                this.$toast.add({severity: 'success', summary: 'All Rows Expanded', life: 3000});
+                this.expandedRows = this.contents.filter(dt => dt.title);
+                // this.$toast.add({severity: 'success', summary: 'All Rows Expanded', life: 3000});
             },
             collapseAll() {
                 this.expandedRows = null;
-                this.$toast.add({severity: 'success', summary: 'All Rows Collapsed', life: 3000});
+                // this.$toast.add({severity: 'success', summary: 'All Rows Collapsed', life: 3000});
             }
         }
     }

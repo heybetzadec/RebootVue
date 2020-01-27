@@ -53,7 +53,6 @@
 <script>
 
     import {appOptions} from "../../model/Variables";
-    // import {Functions} from "../../model/Functions";
     let axios = require('axios');
 
     export default {
@@ -72,8 +71,6 @@
             } else if (this.$cookie.get('token')) {
                 localStorage.token = this.$cookie.get('token');
                 localStorage.loginUser  = this.$cookie.get('loginUser');
-                // this.$router.replace('/dashboard');
-                // this.$router.reload();
                 this.$router.go();
             }
         },

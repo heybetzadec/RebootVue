@@ -26,7 +26,6 @@
                             <div class="p-col-12 p-md-4 p-lg-4">
                                 <InputText class="full-width"  v-on:input="titleChange()"  v-model="content.title"/>
                             </div>
-
                             <div class="p-col-12 p-md-1 p-lg-1">
                                 <ValidationMessage v-if="this.validation.title"></ValidationMessage>
                             </div>
@@ -177,12 +176,12 @@
                 disableUpdateDate:false,
                 selectedFile: null,
                 content: null,
+                contentImageMediaPath: null,
                 createDate: null,
                 updateDate: null,
                 tags:null,
                 loading:true,
                 indeterminate: false,
-                multiselectedCategories: null,
                 validation: {
                     message: '',
                     messageType: 'error',
@@ -192,6 +191,7 @@
                     link: false,
                     category: false
                 },
+                multiselectedCategories: null,
                 multiselectCategries: null
             };
         },
@@ -233,7 +233,8 @@
 
                 if (id === undefined){ // add content
                     axios.get(appOptions.apiUrl + 'content/get/model').then(response => {
-                        this.content = response.data;
+                        this.content = response.data.body.content;
+                        this.contentImageMediaPath = response.data.body.contentImageMediaPath;
                         this.createDate = new Date();
                         this.updateDate = new Date();
                         this.loading = false
@@ -250,7 +251,8 @@
                             this.content = response.data.body.content;
                             console.log(this.content);
                             // let preview = document.querySelector('#preview_image');
-                            this.imgUrl = appOptions.apiUrl + 'media/' + this.content.imageName;
+                            // this.imgUrl = appOptions.apiUrl + 'media/' + this.content.imageName;
+                            this.imgUrl = appOptions.apiUrl + response.data.body.contentImageMediaPath + this.content.imageName;
                             this.oldImage = this.content.imageName;
                             this.link = this.content.link;
                             this.createDate = new Date(this.content.createDate);
@@ -299,7 +301,6 @@
                 if (this.content.title === '') {
                     this.validation.title = true;
                     this.indeterminate = false;
-                    console.log('title empty');
                     r =  true;
                 } else {
                     this.validation.title = false;
@@ -339,7 +340,7 @@
                     let n = d.getTime();
                     let pref = n.toString().substr(8, n.length);
                     const fd = new FormData();
-                    this.content.imageName = pref + '_' + this.selectedFile.name;
+                    this.content.imageName = pref + '_' + this.selectedFile.name; // this.link; //
                     fd.append('file', this.selectedFile, this.content.imageName);
                     fd.append('oldImage', this.oldImage);
                     let options = {
@@ -448,5 +449,8 @@
     }
     .file-message .p-messages-error {
         margin-top: 30px;
+    }
+    img#preview_image {
+        max-width: 300px;
     }
 </style>

@@ -202,16 +202,10 @@
             },
             loadModel() {
                 let id = this.$route.params.id;
-
-                axios.get(appOptions.apiUrl + 'categories/get/select/id/'+id).then(response => {
-                    this.parentCategoryOption = response.data.body.categories;
-                    // delete a.Prop1;
-                    // eslint-disable-next-line no-unused-vars
-                }).catch((error) => {
-                    this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
-                });
+                var selectCatListId = id;
 
                 if (id === undefined){ // add category
+                    selectCatListId = 0;
                     axios.get(appOptions.apiUrl + 'category/get/model').then(response => {
                         this.category = response.data;
                         this.createDate = new Date();
@@ -236,6 +230,14 @@
                         this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin. Xəta: '+error;
                     });
                 }
+
+                axios.get(appOptions.apiUrl + 'categories/get/select/id/'+selectCatListId).then(response => {
+                    this.parentCategoryOption = response.data.body.categories;
+                    // delete a.Prop1;
+                    // eslint-disable-next-line no-unused-vars
+                }).catch((error) => {
+                    this.validation.message = 'Servere bağlanmaq mümkün olmadı. Yenidən yoxlamaq üçün səhifəni yeniləyin.';
+                });
             },
             handleSave: function () {
                 if (this.category.title === '') {
