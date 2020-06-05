@@ -1,5 +1,8 @@
 # sigma
 
+Reboot Website Application. 
+Application use Spring Boot REST API -> https://github.com/heybetzadec/RebootREST
+ 
 ## Project setup
 ```
 npm install
